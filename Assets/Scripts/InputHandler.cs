@@ -37,7 +37,6 @@ public class InputHandler : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            Debug.Log("d");
             return new Jump();
         }
         return null;

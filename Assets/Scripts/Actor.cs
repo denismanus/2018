@@ -15,9 +15,9 @@ public class Actor : MonoBehaviour
     private float speed = 2f;
     private bool isGrounded = true;
 
-    private Rigidbody2D rigidbody2D;
+    private new Rigidbody2D rigidbody2D;
     private SpriteRenderer spriteRenderer;
-    private Transform transform;
+    private new Transform transform;
 
     public Actor(GameObject gameObject)
     {
