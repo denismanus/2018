@@ -1,18 +1,20 @@
 fileFormatVersion: 2
-guid: 62344318bc2c63541a0780ee622b2788
-timeCreated: 1515170984
+guid: 9a3d29d389a3f2142b9086e303cbcf44
+timeCreated: 1515284812
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Tiles_for_Denis (5)_0
-    21300002: Tiles_for_Denis (5)_1
-    21300004: Tiles_for_Denis (5)_2
-    21300006: Tiles_for_Denis (5)_3
-    21300008: Tiles_for_Denis (5)_4
-    21300010: Tiles_for_Denis (5)_5
-    21300012: Tiles_for_Denis (5)_6
-    21300014: Tiles_for_Denis (5)_7
-    21300016: Tiles_for_Denis (5)_8
+    21300000: Sptires_0
+    21300002: Sptires_1
+    21300004: Sptires_2
+    21300006: Sptires_3
+    21300008: Sptires_4
+    21300010: Sptires_5
+    21300012: Sptires_6
+    21300014: Sptires_7
+    21300016: Sptires_8
+    21300018: Sptires_9
+    21300020: Sptires_10
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -109,11 +111,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_0
+      name: Sptires_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 144
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -123,11 +125,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_1
+      name: Sptires_1
       rect:
         serializedVersion: 2
         x: 1
-        y: 127
+        y: 35
         width: 14
         height: 15
       alignment: 0
@@ -137,11 +139,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_2
+      name: Sptires_2
       rect:
         serializedVersion: 2
         x: 17
-        y: 144
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -151,11 +153,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_3
+      name: Sptires_3
       rect:
         serializedVersion: 2
         x: 18
-        y: 127
+        y: 35
         width: 14
         height: 15
       alignment: 0
@@ -165,11 +167,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_4
+      name: Sptires_4
       rect:
         serializedVersion: 2
         x: 34
-        y: 144
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -179,11 +181,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_5
+      name: Sptires_5
       rect:
         serializedVersion: 2
         x: 35
-        y: 127
+        y: 35
         width: 14
         height: 15
       alignment: 0
@@ -193,11 +195,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_6
+      name: Sptires_6
       rect:
         serializedVersion: 2
         x: 51
-        y: 144
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -207,13 +209,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_7
+      name: Sptires_7
       rect:
         serializedVersion: 2
         x: 55
-        y: 128
+        y: 36
         width: 8
-        height: 9
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,11 +223,39 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles_for_Denis (5)_8
+      name: Sptires_8
       rect:
         serializedVersion: 2
         x: 0
-        y: 109
+        y: 17
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Sptires_9
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 17
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Sptires_10
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 17
         width: 16
         height: 16
       alignment: 0

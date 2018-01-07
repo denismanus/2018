@@ -4,9 +4,10 @@ public class LevelGenetator : MonoBehaviour {
 
     public Texture2D map;
     public ColorToPrefab[] colorToPrefab;
-
+    private LevelManager levelManager;
 
 	void Start () {
+        levelManager = FindObjectOfType<LevelManager>();
         GenerateLevel(); 
 	}
 
@@ -34,7 +35,7 @@ public class LevelGenetator : MonoBehaviour {
             if(colorMapping.color.Equals(pixelColor))
             {
                 Vector2 pos = new Vector2(x, y);
-                Instantiate(colorMapping.prefab, pos, Quaternion.identity, transform);
+                levelManager.AddObj(Instantiate(colorMapping.prefab, pos, Quaternion.identity, transform));
             }
         }
     }
