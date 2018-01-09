@@ -8,10 +8,11 @@ public class LevelManager : MonoBehaviour
 {
     public StringToSprite[] sprites;
     private List<GameObject> objectList = new List<GameObject>();
+    public GameObject backGround; 
+
 
     void Start()
     {
-
     }
 
     public Sprite GetSprite(string name)
@@ -25,7 +26,10 @@ public class LevelManager : MonoBehaviour
         }
         return null;
     }
-
+    public void ClearLevel()
+    {
+        objectList.Clear();
+    }
     public void AddObj(GameObject obj)
     {
         objectList.Add(obj);
@@ -43,6 +47,13 @@ public class LevelManager : MonoBehaviour
             {
                 box.gameObject.GetComponent<TestScript>().Reset();
             }
+        }
+    }
+    public void DestroyObjects()
+    {
+        foreach (GameObject box in objectList)
+        {
+            Destroy(box);
         }
     }
 }

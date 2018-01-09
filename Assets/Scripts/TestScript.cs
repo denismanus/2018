@@ -8,7 +8,7 @@ public class TestScript : MonoBehaviour, IResetable
     private string typeOfCube = "Empty";
     private bool isFacedRight = true;
     private float maxSpeed = 4f;
-    private float jumpPower = 5f;
+    private float jumpPower = 6.5f;
     public bool isGrounded = true;
     public Transform groundCheck;
     public float groundRadius = 0.2f;
@@ -39,6 +39,7 @@ public class TestScript : MonoBehaviour, IResetable
     public void Push(Vector2 direction)
     {
         body.AddForce(direction, ForceMode2D.Impulse);
+        //body.velocity = direction;  
     }
 
     public void Jump()
@@ -53,9 +54,6 @@ public class TestScript : MonoBehaviour, IResetable
         {
             Jump();
         }
-
-       
-
         float move = Input.GetAxis("Horizontal");
         if (move < 0)
         {
@@ -67,14 +65,15 @@ public class TestScript : MonoBehaviour, IResetable
         }
 
         gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-        body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
+       body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
+        
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "Danger")
         {
-            Reset();
+           Reset();
         }
     }
 

@@ -1,21 +1,47 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LevelGenetator : MonoBehaviour {
 
-    public Texture2D map;
+    public Texture2D[] map;
     public ColorToPrefab[] colorToPrefab;
     private LevelManager levelManager;
+    private int currentLevel = 0;
+    private GameObject cameraScript;
 
 	void Start () {
+ 
         levelManager = FindObjectOfType<LevelManager>();
-        GenerateLevel(); 
+        GenerateLevel();
+        cameraScript = FindObjectOfType<CameraScript>().gameObject;
 	}
+
+    public void NextLevel()
+    {
+        if(currentLevel< map.Length)
+        {
+            currentLevel++;
+            levelManager.DestroyObjects();
+            GenerateLevel();
+            cameraScript.GetComponent<CameraScript>().FindCharacter();
+            Time.timeScale = 1f;
+            //levelManager.ResetLevel();
+
+        }
+        else
+        {
+            Debug.Log("End");
+        }
+    }
 
     void GenerateLevel()
     {
-        for(int x =0; x< map.width; x++)
+        levelManager.ClearLevel();
+        for (int x =0; x< map[currentLevel].width; x++)
         {
-            for(int y = 0; y < map.height; y++)
+            for(int y = 0; y < map[currentLevel].height; y++)
             {
                 GenerateTile(x, y);
             }
@@ -25,7 +51,7 @@ public class LevelGenetator : MonoBehaviour {
     void GenerateTile(int x, int y)
     {
         
-        Color pixelColor = map.GetPixel(x, y);
+        Color pixelColor = map[currentLevel].GetPixel(x, y);
         if (pixelColor.a == 0)
         {
             return;
@@ -39,5 +65,4 @@ public class LevelGenetator : MonoBehaviour {
             }
         }
     }
-	
 }

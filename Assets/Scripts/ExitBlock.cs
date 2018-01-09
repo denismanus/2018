@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExitBlock : MonoBehaviour {
 
-    // Use this for initialization
-    private LevelManager manager;
+    private GameObject menu;
+    
+
 	void Start () {
-        manager = FindObjectOfType<LevelManager>();
-	}
-	
+        menu = GameObject.FindGameObjectWithTag("NextLevelMenu");
+        menu.gameObject.SetActive(false);
+    }
+	//TODO изменит систему переключения уровней
 	void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag =="Player")
         {
-            manager.ResetLevel();
+            menu.gameObject.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 }

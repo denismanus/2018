@@ -44,6 +44,18 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void NextLevel()
+    {
+        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
     public void MainMenu()
     {
         Resume();

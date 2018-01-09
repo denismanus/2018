@@ -53,22 +53,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - color: Simple
-    sprite: {fileID: 21300000, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300000, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: EmptyChar
-    sprite: {fileID: 21300002, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300002, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Red
-    sprite: {fileID: 21300004, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300004, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: RedChar
-    sprite: {fileID: 21300006, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300006, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Blue
-    sprite: {fileID: 21300008, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300008, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: BlueChar
-    sprite: {fileID: 21300010, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300010, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Empty
-    sprite: {fileID: 21300012, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300012, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: ExitBlock
-    sprite: {fileID: 21300016, guid: 62344318bc2c63541a0780ee622b2788, type: 3}
+    sprite: {fileID: 21300016, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Green
-    sprite: {fileID: 21300000, guid: e235f2b3e95260046b5fbd7af6be049d, type: 3}
+    sprite: {fileID: 21300020, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: GreenChar
-    sprite: {fileID: 21300000, guid: 9a452d9a976437447bbd086b5517d17e, type: 3}
+    sprite: {fileID: 21300018, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+  - color: Pointer
+    sprite: {fileID: 21300014, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+  backGround: {fileID: 0}

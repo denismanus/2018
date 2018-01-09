@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - SimpleBlock
   - Danger
+  - Side
+  - NextLevelMenu
   layers:
   - Default
   - TransparentFX

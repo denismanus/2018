@@ -8,6 +8,7 @@ public class ColorableBox : MonoBehaviour
     {
         top, right, bottom, left
     }
+    private Sides actualSide;
     public string typeOfTheBox;
     private string basicColor;
     public Transform positionOfTeleport;
@@ -15,8 +16,8 @@ public class ColorableBox : MonoBehaviour
 
     void Start()
     {
-        levelManager = FindObjectOfType<LevelManager>().gameObject;
         basicColor = typeOfTheBox;
+        levelManager = FindObjectOfType<LevelManager>().gameObject;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -32,6 +33,10 @@ public class ColorableBox : MonoBehaviour
         if (coll.gameObject.tag == "Player")
         {
             ColorCheck(coll.gameObject);
+        }
+        else if (coll.gameObject.tag == "Side")
+        {
+            GetSideCollision(coll);
         }
     }
     void ColorCheck(GameObject gameObject)
@@ -61,8 +66,13 @@ public class ColorableBox : MonoBehaviour
     public void Reset()
     {
         typeOfTheBox = basicColor;
+        Debug.Log(basicColor);
+        Debug.Log(typeOfTheBox);
+        Debug.Log(levelManager);
+        Debug.Log(gameObject.GetComponent<SpriteRenderer>().sprite);
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox);
     }
+    
 
     void ExchangeColor(GameObject gameObject, string charType)
     {
@@ -80,61 +90,43 @@ public class ColorableBox : MonoBehaviour
         }
     }
 
-    //Todo - исправить ебучее обнаружение  стороны и сделать нормльное отталкивание
-    //Импуль по оси x НЕ РАБОТАЕТ, либо велосити с блокировкой управления надо пробовать
-    //Либо отказаться от идеи откидывать в бок, хотя это хуёво
-    //Надо исправить прыжки у стены
     void Push(GameObject gameObject)
     {
+        Debug.Log(actualSide);
         Vector2 player = gameObject.GetComponent<Transform>().position;
         Vector2 block = this.GetComponent<Transform>().position;
         Vector2 push = new Vector2();
-        Debug.Log(gameObject.GetComponent<Transform>().lossyScale);
-        if (player.y > block.y )
+        if (actualSide == Sides.bottom)
         {
-            if (player.x + 0.8f > block.x)
-            {
-                push = new Vector2(0, 9);
-            }
+            push = new Vector2(0, 11);
         }
-        else if (player.x < block.x)
+        else if (actualSide == Sides.left)
         {
-            push = new Vector2(-9, 0);
+            //push = new Vector2(8, 3);
         }
-        else if (player.x > block.x)
+        else if (actualSide == Sides.right)
         {
-            push = new Vector2(9, 0);
+            //push = new Vector2(-8, 3);
         }
         gameObject.GetComponent<TestScript>().Push(push);
     }
 
-    private Sides GetSideCollision(GameObject gameObject)
+    private void GetSideCollision(Collider2D gameObject)
     {
-        Vector2 player = gameObject.GetComponent<Transform>().position;
-        Vector2 block = this.GetComponent<Transform>().position;
-        if (player.y > block.y-1f)
+        switch (gameObject.name)
         {
-            return Sides.top;
-        }
-        else if (player.x > block.x)
-        {
-            return Sides.right;
-        }
-        else if (player.x < block.x)
-        {
-            return Sides.left;
-        }
-        else
-        {
-            return Sides.bottom;
+            case "Left":
+                actualSide = Sides.left;
+                break;
+            case "Bottom":
+                actualSide = Sides.bottom;
+                break;
+            case "Right":
+                actualSide = Sides.right;
+                break;
+            case "Top":
+                actualSide = Sides.top;
+                break;
         }
     }
-    //Sides side = GetSideCollision(gameObject);
-    //    switch(side)
-    //    {
-    //        case Sides.bottom:
-    //            break;
-    //        case Sides.left:
-    //            break;
-    //    }
 }

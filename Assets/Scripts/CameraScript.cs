@@ -12,10 +12,14 @@ public class CameraScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        FindCharacter();
+    }
+
+    public void FindCharacter()
+    {
         target = FindObjectOfType<TestScript>().gameObject;
         targetPos = transform.position;
     }
-
     // Update is called once per frame
     void FixedUpdate()
     {
