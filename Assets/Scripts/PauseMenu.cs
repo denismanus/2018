@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
+    private LevelGenetator levelGenetator;
+    private LevelManager levelManager;
     public static bool isPaused = false;
     public GameObject UIpauseMenu;
+
     void Start()
     {
-
+        levelManager = FindObjectOfType<LevelManager>();
+        levelGenetator = FindObjectOfType<LevelGenetator>();
     }
 
 
@@ -44,17 +47,24 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void NextLevel()
+    public void Restart()
     {
-        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        else
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
+        isPaused = false;
+        UIpauseMenu.SetActive(false);
+        levelManager.GetComponent<LevelManager>().ResetLevel();
+        Time.timeScale = 1f;
     }
+    //public void NextLevel()
+    //{
+    //    if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
+    //    {
+    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //    }
+    //    else
+    //    {
+    //        SceneManager.LoadScene("MainMenu");
+    //    }
+    //}
 
     public void MainMenu()
     {
