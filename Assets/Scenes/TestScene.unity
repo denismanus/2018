@@ -494,6 +494,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: map.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4491900804143658, guid: 2acabf3bbd3a27d46a823f8bb0931bdc, type: 2}
       propertyPath: m_LocalPosition.x
       value: -10.049203
@@ -531,6 +541,37 @@ Prefab:
       propertyPath: map.Array.data[4]
       value: 
       objectReference: {fileID: 2800000, guid: 98c223b98b3bd6f4593441e43b6e89f1, type: 3}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: map.Array.data[5]
+      value: 
+      objectReference: {fileID: 2800000, guid: 95e1dc376626b444a9774b2779c2527e, type: 3}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.data[8].color.r
+      value: 0.39607844
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.data[8].color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.data[8].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.data[8].prefab
+      value: 
+      objectReference: {fileID: 1213535083143726, guid: 6953c316b422aa04e94afc601b1d513e,
+        type: 2}
+    - target: {fileID: 114470285729227320, guid: 2acabf3bbd3a27d46a823f8bb0931bdc,
+        type: 2}
+      propertyPath: colorToPrefab.Array.data[8].color.b
+      value: 0.39607844
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2acabf3bbd3a27d46a823f8bb0931bdc, type: 2}
   m_IsPrefabParent: 0
@@ -765,7 +806,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1243344643502414, guid: c20581b879f545d41840f1c5053bb767, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224150663337731702, guid: c20581b879f545d41840f1c5053bb767,
         type: 2}
@@ -782,6 +823,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114483617514569268, guid: 267cddae5652be14e81e67ccbe699eae,
+        type: 2}
+      propertyPath: sprites.Array.size
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4848755379432980, guid: 267cddae5652be14e81e67ccbe699eae, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0.5791213
@@ -814,6 +860,28 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114483617514569268, guid: 267cddae5652be14e81e67ccbe699eae,
+        type: 2}
+      propertyPath: sprites.Array.data[11].color
+      value: Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 114483617514569268, guid: 267cddae5652be14e81e67ccbe699eae,
+        type: 2}
+      propertyPath: sprites.Array.data[11].sprite
+      value: 
+      objectReference: {fileID: 21300024, guid: 9a3d29d389a3f2142b9086e303cbcf44,
+        type: 3}
+    - target: {fileID: 114483617514569268, guid: 267cddae5652be14e81e67ccbe699eae,
+        type: 2}
+      propertyPath: sprites.Array.data[12].color
+      value: PurpleChar
+      objectReference: {fileID: 0}
+    - target: {fileID: 114483617514569268, guid: 267cddae5652be14e81e67ccbe699eae,
+        type: 2}
+      propertyPath: sprites.Array.data[12].sprite
+      value: 
+      objectReference: {fileID: 21300022, guid: 9a3d29d389a3f2142b9086e303cbcf44,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 267cddae5652be14e81e67ccbe699eae, type: 2}
   m_IsPrefabParent: 0

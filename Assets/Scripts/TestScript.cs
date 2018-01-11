@@ -6,6 +6,7 @@ public class TestScript : MonoBehaviour, IResetable
 {
 
     private string typeOfCube = "Empty";
+    private int gravity = 0;
     private bool isFacedRight = true;
     private float maxSpeed = 4f;
     private float jumpPower = 6.5f;
@@ -26,10 +27,18 @@ public class TestScript : MonoBehaviour, IResetable
         levelManager = FindObjectOfType<LevelManager>().gameObject;
     }
 
+    public void SetGravity(int gravityDirection)
+    {
+        transform.Rotate(0, 0, 90 * gravityDirection - 90 * gravity);
+        transform.Find("SideDetection").transform.Rotate(0, 0, 90 * -gravityDirection + 90 * gravity);
+        gravity = gravityDirection;
+    }
+
     public string GetTypeOfCube()
     {
         return typeOfCube;
     }
+
 
     public void SetTypeOfCube(string newType)
     {
@@ -39,14 +48,50 @@ public class TestScript : MonoBehaviour, IResetable
     public void Push(Vector2 direction)
     {
         body.AddForce(direction, ForceMode2D.Impulse);
-        //body.velocity = direction;  
     }
 
     public void Jump()
     {
-        body.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+
+        switch(gravity)
+        {
+            case 0:
+                body.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+                break;
+            case 1:
+                body.AddForce(new Vector2(-jumpPower, 0), ForceMode2D.Impulse);
+                break;
+            case 2:
+                body.AddForce(new Vector2(0, -jumpPower), ForceMode2D.Impulse);
+                break;
+            case 3:
+                body.AddForce(new Vector2(jumpPower, 0), ForceMode2D.Impulse);
+                break;
+        }
     }
 
+    public void Move(float move)
+    {
+        switch (gravity)
+        {
+            case 0:
+                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
+                break;
+            case 1:
+                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                body.velocity = new Vector3(body.velocity.x, maxSpeed * move);
+                break;
+            case 2:
+                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                body.velocity = new Vector3(-maxSpeed * move, body.velocity.y);
+                break;
+            case 3:
+                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                body.velocity = new Vector3(body.velocity.x, -maxSpeed * move);
+                break;
+        }
+    }
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -63,10 +108,9 @@ public class TestScript : MonoBehaviour, IResetable
         {
             isFacedRight = false;
         }
-
-        gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-       body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
-        
+        //gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+        //body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
+        Move(move);
     }
 
 

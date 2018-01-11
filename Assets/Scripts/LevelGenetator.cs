@@ -8,7 +8,7 @@ public class LevelGenetator : MonoBehaviour {
     public Texture2D[] map;
     public ColorToPrefab[] colorToPrefab;
     private LevelManager levelManager;
-    private int currentLevel = 0;
+    private int currentLevel = 5;
     private GameObject cameraScript;
 
 	void Start () {

@@ -60,6 +60,10 @@ public class ColorableBox : MonoBehaviour
         {
             TeleportTo(gameObject);
         }
+        else if (charType == "Purple")
+        {
+            ChangeGravity(gameObject);
+        }
     }
 
 
@@ -72,7 +76,7 @@ public class ColorableBox : MonoBehaviour
         Debug.Log(gameObject.GetComponent<SpriteRenderer>().sprite);
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox);
     }
-    
+
 
     void ExchangeColor(GameObject gameObject, string charType)
     {
@@ -90,6 +94,30 @@ public class ColorableBox : MonoBehaviour
         }
     }
 
+    void ChangeGravity(GameObject gameObject)
+    {
+        Debug.Log(actualSide);
+        switch (actualSide)
+        {
+            case Sides.top:
+                Physics2D.gravity = new Vector3(0, -9.82f, 0);
+                gameObject.GetComponent<TestScript>().SetGravity(0);
+                break;
+            case Sides.right:
+                Physics2D.gravity = new Vector3(-9.82f, 0, 0);
+                gameObject.GetComponent<TestScript>().SetGravity(3);
+                break;
+            case Sides.bottom:
+                Physics2D.gravity = new Vector3(0, 9.82F, 0);
+                gameObject.GetComponent<TestScript>().SetGravity(2);
+                break;
+            case Sides.left:
+                Physics2D.gravity = new Vector3(9.82F, 0, 0);
+                gameObject.GetComponent<TestScript>().SetGravity(1);
+                break;
+        }
+    }
+
     void Push(GameObject gameObject)
     {
         Debug.Log(actualSide);
@@ -102,11 +130,15 @@ public class ColorableBox : MonoBehaviour
         }
         else if (actualSide == Sides.left)
         {
-            //push = new Vector2(8, 3);
+            push = new Vector2(11, 0);
         }
         else if (actualSide == Sides.right)
         {
-            //push = new Vector2(-8, 3);
+            push = new Vector2(-11, 0);
+        }
+        else
+        {
+            push = new Vector2(0, 11);
         }
         gameObject.GetComponent<TestScript>().Push(push);
     }
