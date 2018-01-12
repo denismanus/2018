@@ -19,7 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4491900804143658}
-  - component: {fileID: 114470285729227320}
+  - component: {fileID: 114255521947148442}
+  - component: {fileID: 114961649047916058}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -34,13 +35,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822525378800268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.049203, y: -0.49556273, z: -0.07210909}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114470285729227320
+--- !u!114 &114255521947148442
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,29 +49,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 1822525378800268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b9bc69487e6928479d201d720dd8eef, type: 3}
+  m_Script: {fileID: 11500000, guid: cda2ebe1fd58c0d40b4c5bda1ec1d3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map:
-  - {fileID: 2800000, guid: 7c5091f96e57e4c499e91951a74f5fff, type: 3}
-  - {fileID: 2800000, guid: 57f4bba4566168149a60947200c5805e, type: 3}
-  - {fileID: 2800000, guid: b8f2c0abfe54fb6429ad046d93cef020, type: 3}
-  - {fileID: 2800000, guid: e635de9292d27d245a838e1e2f09861e, type: 3}
-  - {fileID: 2800000, guid: 1c552daef18eaa846a526aeef765ef4f, type: 3}
-  colorToPrefab:
-  - color: {r: 0, g: 0, b: 0, a: 1}
-    prefab: {fileID: 1572094329544792, guid: d5f3558ffc74604468807fa33590d078, type: 2}
-  - color: {r: 1, g: 1, b: 1, a: 1}
-    prefab: {fileID: 1929312215143752, guid: 2ba2d43c18f8e4748bc602fe183d7c56, type: 2}
-  - color: {r: 0, g: 0, b: 1, a: 1}
-    prefab: {fileID: 1575662752000052, guid: 4c5b524dea8c38448bffc0f0dc7fba3a, type: 2}
-  - color: {r: 1, g: 0, b: 0, a: 1}
-    prefab: {fileID: 1294301112908252, guid: 013f0eac90db91a4bafc38ada3d50e27, type: 2}
-  - color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
-    prefab: {fileID: 1404924800758632, guid: 90ab15417835a6a44b1a15252faa3917, type: 2}
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    prefab: {fileID: 1785811407506804, guid: fd61934e9d39b9a469cd2621ffb2eb9e, type: 2}
-  - color: {r: 0.33333334, g: 0, b: 0.33333334, a: 1}
-    prefab: {fileID: 1633089260226480, guid: 5d3eb14083f2bdc47851340b39a2c17d, type: 2}
-  - color: {r: 1, g: 1, b: 0, a: 1}
-    prefab: {fileID: 1864714413723184, guid: 0c5d281d56b2a4744a6bc28bf1b08bcc, type: 2}
+  prefabs: {fileID: 114961649047916058}
+--- !u!114 &114961649047916058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822525378800268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155b9f826ddb83d46b3d7e5ed11b52ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allPrefs:
+  - type: Danger
+    gameObject: {fileID: 1864714413723184, guid: 0c5d281d56b2a4744a6bc28bf1b08bcc,
+      type: 2}
+  - type: SimpleBlock
+    gameObject: {fileID: 1572094329544792, guid: d5f3558ffc74604468807fa33590d078,
+      type: 2}
+  - type: Red
+    gameObject: {fileID: 1294301112908252, guid: 013f0eac90db91a4bafc38ada3d50e27,
+      type: 2}
+  - type: Purple
+    gameObject: {fileID: 1213535083143726, guid: 6953c316b422aa04e94afc601b1d513e,
+      type: 2}
+  - type: Green
+    gameObject: {fileID: 1785811407506804, guid: fd61934e9d39b9a469cd2621ffb2eb9e,
+      type: 2}
+  - type: Blue
+    gameObject: {fileID: 1575662752000052, guid: 4c5b524dea8c38448bffc0f0dc7fba3a,
+      type: 2}
+  - type: Exit
+    gameObject: {fileID: 1404924800758632, guid: 90ab15417835a6a44b1a15252faa3917,
+      type: 2}
+  - type: Start
+    gameObject: {fileID: 1929312215143752, guid: 2ba2d43c18f8e4748bc602fe183d7c56,
+      type: 2}

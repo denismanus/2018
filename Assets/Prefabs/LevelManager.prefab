@@ -74,4 +74,8 @@ MonoBehaviour:
     sprite: {fileID: 21300018, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Pointer
     sprite: {fileID: 21300014, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+  - color: Purple
+    sprite: {fileID: 21300024, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300022, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   backGround: {fileID: 0}

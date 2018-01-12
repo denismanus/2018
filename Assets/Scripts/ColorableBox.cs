@@ -97,27 +97,38 @@ public class ColorableBox : MonoBehaviour
         gameObject.GetComponent<TestScript>().SetTypeOfCube(typeOfTheBox);
         typeOfTheBox = charType;
     }
-
+    GameObject FindTeleport(GameObject teleport)
+    {
+        if(teleport.GetComponent<ColorableBox>().typeOfTheBox!="Green")
+        {
+            return FindTeleport(teleport.GetComponent<ColorableBox>().teleport);
+        }
+        else
+        {
+            return teleport;
+        }
+        
+    }
     void TryTeleport(GameObject gameObject)
     {
         if (teleport != null)
         {
-            GameObject teleportTo = null;
-            if (teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            {
-                teleportTo = teleport;
-            }
-            else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            {
-                teleportTo = teleport.GetComponent<ColorableBox>().teleport;
-            }
-            else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            {
-                teleportTo = teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport;
-            } else
-            {
-                return;
-            }
+            GameObject teleportTo = FindTeleport(teleport);
+            //if (teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
+            //{
+            //    teleportTo = teleport;
+            //}
+            //else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
+            //{
+            //    teleportTo = teleport.GetComponent<ColorableBox>().teleport;
+            //}
+            //else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
+            //{
+            //    teleportTo = teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport;
+            //} else
+            //{
+            //    return;
+            //}
             teleportTo.GetComponent<ColorableBox>().GetPlayerAfterTeleporting();
             switch (actualSide)
             {
@@ -174,7 +185,6 @@ public class ColorableBox : MonoBehaviour
 
     void Push(GameObject gameObject)
     {
-        Debug.Log(actualSide);
         Vector2 player = gameObject.GetComponent<Transform>().position;
         Vector2 block = this.GetComponent<Transform>().position;
         Vector2 push = new Vector2();

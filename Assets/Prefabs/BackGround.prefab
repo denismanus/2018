@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224986587622184602}
   - component: {fileID: 212352025839392974}
-  - component: {fileID: 114453084495286124}
   m_Layer: 0
   m_Name: BackGround
   m_TagString: Untagged
@@ -28,18 +27,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114453084495286124
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1769729505048650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f4b905b74dc7e4886728424c2e581d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPosition: {fileID: 0}
 --- !u!212 &212352025839392974
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -41,7 +41,9 @@ public class LevelFromJson : MonoBehaviour
         foreach (ColorBlock b in level.Red)
         {
             pos = new Vector2(b.position.x, b.position.y);
-            levelManager.AddColorableBox(Instantiate(prefabs.GetPrefab("Red"), pos, Quaternion.identity, transform));
+            GameObject red = Instantiate(prefabs.GetPrefab("Red"), pos, Quaternion.identity, transform);
+            levelManager.AddColorableBox(red);
+            red.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Green)
         {
@@ -53,12 +55,16 @@ public class LevelFromJson : MonoBehaviour
         foreach (ColorBlock b in level.Blue)
         {
             pos = new Vector2(b.position.x, b.position.y);
-            levelManager.AddColorableBox(Instantiate(prefabs.GetPrefab("Blue"), pos, Quaternion.identity, transform));
+            GameObject blue = Instantiate(prefabs.GetPrefab("Blue"), pos, Quaternion.identity, transform);
+            levelManager.AddColorableBox(blue);
+            blue.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Purple)
         {
             pos = new Vector2(b.position.x, b.position.y);
-            levelManager.AddColorableBox(Instantiate(prefabs.GetPrefab("Purple"), pos, Quaternion.identity, transform));
+            GameObject purple = Instantiate(prefabs.GetPrefab("Purple"), pos, Quaternion.identity, transform);
+            levelManager.AddColorableBox(purple);
+            purple.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         pos = new Vector2(level.Start.x, level.Start.y);
         levelManager.AddObj(Instantiate(prefabs.GetPrefab("Start"), pos, Quaternion.identity, transform));
