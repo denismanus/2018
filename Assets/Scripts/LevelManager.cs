@@ -8,16 +8,37 @@ public class LevelManager : MonoBehaviour
 {
     public StringToSprite[] sprites;
     private List<GameObject> objectList = new List<GameObject>();
-    public GameObject backGround; 
+    private List<GameObject> colorableBox = new List<GameObject>();
+    public GameObject backGround;
 
 
     void Start()
     {
     }
 
+    public void SetTeleports()
+    {
+       foreach(GameObject a in colorableBox)
+        {
+            foreach(GameObject b in colorableBox)
+            {
+                if (!a.Equals(b))
+                {
+                    if (a.GetComponent<ColorableBox>().teleportCoord.x
+                    == (int)b.GetComponent<Transform>().position.x && a.GetComponent<ColorableBox>().teleportCoord.y
+                    == (int)b.GetComponent<Transform>().position.y)
+                    {
+                        a.GetComponent<ColorableBox>().teleport = b;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public Sprite GetSprite(string name)
     {
-        foreach(StringToSprite a in sprites)
+        foreach (StringToSprite a in sprites)
         {
             if (a.color.Equals(name))
             {
@@ -26,32 +47,41 @@ public class LevelManager : MonoBehaviour
         }
         return null;
     }
+
     public void ClearLevel()
     {
         objectList.Clear();
+        colorableBox.Clear();
     }
     public void AddObj(GameObject obj)
     {
         objectList.Add(obj);
     }
-
+    public void AddColorableBox(GameObject obj)
+    {
+        colorableBox.Add(obj);
+    }
     public void ResetLevel()
     {
-        foreach(GameObject box in objectList)
+        foreach (GameObject box in objectList)
         {
-            if (box.gameObject.GetComponent<ColorableBox>())
-            {
-                box.gameObject.GetComponent<ColorableBox>().Reset();
-            }
-            else if (box.gameObject.GetComponent<TestScript>())
+            if (box.gameObject.GetComponent<TestScript>())
             {
                 box.gameObject.GetComponent<TestScript>().Reset();
             }
+        }
+        foreach (GameObject box in colorableBox)
+        {
+            box.GetComponent<ColorableBox>().Reset();
         }
     }
     public void DestroyObjects()
     {
         foreach (GameObject box in objectList)
+        {
+            Destroy(box);
+        }
+        foreach (GameObject box in colorableBox)
         {
             Destroy(box);
         }

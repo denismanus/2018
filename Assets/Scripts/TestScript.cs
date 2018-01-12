@@ -122,9 +122,16 @@ public class TestScript : MonoBehaviour, IResetable
             levelManager.GetComponent<LevelManager>().ResetLevel();
         }
     }
+    void OnDestroy()
+    {
+        Physics2D.gravity = new Vector3(0, -9.82f, 0);
+        SetGravity(0);
+    }
 
     public void Reset()
     {
+        Physics2D.gravity = new Vector3(0, -9.82f, 0);
+        SetGravity(0);
         body.velocity = new Vector2(0, 0);
         typeOfCube = "Empty";
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfCube + "Char");

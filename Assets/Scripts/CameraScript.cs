@@ -9,6 +9,8 @@ public class CameraScript : MonoBehaviour
     private GameObject target;
     public Vector3 offset;
     Vector3 targetPos;
+
+    public GameObject background;
     // Use this for initialization
     void Start()
     {
@@ -37,5 +39,7 @@ public class CameraScript : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPos + offset, 0.25f);
 
         }
+        background.GetComponent<Transform>().position = new Vector3(
+            GetComponent<Transform>().position.x, GetComponent<Transform>().position.y, 2);
     }
 }

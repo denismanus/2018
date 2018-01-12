@@ -5,18 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    private LevelGenetator levelGenetator;
     private LevelManager levelManager;
+    private AudioController audioController;
     public static bool isPaused = false;
     public GameObject UIpauseMenu;
 
     void Start()
     {
+        audioController = FindObjectOfType<AudioController>();
         levelManager = FindObjectOfType<LevelManager>();
-        levelGenetator = FindObjectOfType<LevelGenetator>();
+        audioController.PlayFromBegin();
     }
-
-
 
     void Update()
     {
@@ -36,12 +35,14 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         isPaused = true;
+        audioController.Pause();
         UIpauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
 
     public void Resume()
     {
+        audioController.Play();
         isPaused = false;
         UIpauseMenu.SetActive(false);
         Time.timeScale = 1f;
@@ -50,25 +51,17 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         isPaused = false;
+        audioController.Play();
         UIpauseMenu.SetActive(false);
         levelManager.GetComponent<LevelManager>().ResetLevel();
         Time.timeScale = 1f;
     }
-    //public void NextLevel()
-    //{
-    //    if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
-    //    {
-    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    //    }
-    //    else
-    //    {
-    //        SceneManager.LoadScene("MainMenu");
-    //    }
-    //}
 
     public void MainMenu()
     {
-        Resume();
+        isPaused = false;
+        UIpauseMenu.SetActive(false);
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 }

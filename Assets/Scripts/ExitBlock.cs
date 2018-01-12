@@ -12,7 +12,8 @@ public class ExitBlock : MonoBehaviour {
         menu = GameObject.FindGameObjectWithTag("NextLevelMenu");
         menu.gameObject.SetActive(false);
     }
-	//TODO изменит систему переключения уровней
+
+
 	void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag =="Player")
