@@ -87,5 +87,5 @@ MonoBehaviour:
     gameObject: {fileID: 1404924800758632, guid: 90ab15417835a6a44b1a15252faa3917,
       type: 2}
   - type: Start
-    gameObject: {fileID: 1929312215143752, guid: 2ba2d43c18f8e4748bc602fe183d7c56,
+    gameObject: {fileID: 1929312215143752, guid: 2016efde76a6cbe46acfd4007c2a296f,
       type: 2}

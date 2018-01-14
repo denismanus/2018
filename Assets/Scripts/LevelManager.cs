@@ -36,6 +36,24 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public bool FindBlockInPosition(Vector2 vect)
+    {
+        Debug.Log(vect);
+        foreach (GameObject wall in objectList)
+        {
+            if(wall.name == "SimpleBlock(Clone)")
+            {
+                
+                if(wall.GetComponent<Transform>().position.x== vect.x && wall.GetComponent<Transform>().position.y == vect.y)
+                {
+                    
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public Sprite GetSprite(string name)
     {
         foreach (StringToSprite a in sprites)

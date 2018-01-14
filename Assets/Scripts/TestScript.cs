@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestScript : MonoBehaviour, IResetable
 {
 
-    private string typeOfCube = "Empty";
+    public string typeOfCube = "Empty";
     private int gravity = 0;
     private bool isFacedRight = true;
     private float maxSpeed = 4f;
@@ -18,13 +18,16 @@ public class TestScript : MonoBehaviour, IResetable
     private new Transform transform;
     private Vector2 startPosition;
     private GameObject levelManager;
+    private Animator animator;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         transform = GetComponent<Transform>();
         body = GetComponent<Rigidbody2D>();
         startPosition = transform.position;
         levelManager = FindObjectOfType<LevelManager>().gameObject;
+        animator.SetBool("Empty", true);
     }
 
     public void SetGravity(int gravityDirection)
@@ -43,6 +46,12 @@ public class TestScript : MonoBehaviour, IResetable
     public void SetTypeOfCube(string newType)
     {
         typeOfCube = newType;
+        animator.SetBool("Red", false);
+        animator.SetBool("Green", false);
+        animator.SetBool("Blue", false);
+        animator.SetBool("Purple", false);
+        animator.SetBool("Empty", false);
+        animator.SetBool(newType, true);
     }
 
     public void Push(Vector2 direction)
@@ -95,11 +104,13 @@ public class TestScript : MonoBehaviour, IResetable
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
+        animator.SetBool("isGrounded", isGrounded);
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Jump();
         }
         float move = Input.GetAxis("Horizontal");
+        animator.SetFloat("Speed", Mathf.Abs(move));
         if (move < 0)
         {
             isFacedRight = true;
@@ -108,8 +119,6 @@ public class TestScript : MonoBehaviour, IResetable
         {
             isFacedRight = false;
         }
-        //gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-        //body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
         Move(move);
     }
 
@@ -133,7 +142,7 @@ public class TestScript : MonoBehaviour, IResetable
         Physics2D.gravity = new Vector3(0, -9.82f, 0);
         SetGravity(0);
         body.velocity = new Vector2(0, 0);
-        typeOfCube = "Empty";
+        SetTypeOfCube("Empty");
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfCube + "Char");
         transform.position = startPosition;
     }

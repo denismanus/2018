@@ -7,11 +7,17 @@ public class PauseMenu : MonoBehaviour
 {
     private LevelManager levelManager;
     private AudioController audioController;
+    private bool isLevelEnded = false;
+    private LevelFromJson levelFromJson;
     public static bool isPaused = false;
     public GameObject UIpauseMenu;
+    private GameObject menu;
 
     void Start()
     {
+        levelFromJson = FindObjectOfType<LevelFromJson>();
+        menu = GameObject.FindGameObjectWithTag("NextLevelMenu");
+        menu.gameObject.SetActive(false);
         audioController = FindObjectOfType<AudioController>();
         levelManager = FindObjectOfType<LevelManager>();
         audioController.PlayFromBegin();
@@ -19,7 +25,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)&&!isLevelEnded)
         {
             if (isPaused)
             {
@@ -54,6 +60,21 @@ public class PauseMenu : MonoBehaviour
         audioController.Play();
         UIpauseMenu.SetActive(false);
         levelManager.GetComponent<LevelManager>().ResetLevel();
+        Time.timeScale = 1f;
+    }
+
+    public void NextLevelMenu()
+    {
+        isLevelEnded = true;
+        menu.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void NextLevel()
+    {
+        isLevelEnded = false;
+        menu.gameObject.SetActive(false);
+        levelFromJson.nextlevel();
         Time.timeScale = 1f;
     }
 

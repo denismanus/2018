@@ -5,21 +5,24 @@ using UnityEngine.UI;
 
 public class ExitBlock : MonoBehaviour {
 
-    private GameObject menu;
-    
+    private PauseMenu pause;
+    private Animator anim;
 
 	void Start () {
-        menu = GameObject.FindGameObjectWithTag("NextLevelMenu");
-        menu.gameObject.SetActive(false);
+        pause = FindObjectOfType<PauseMenu>();
+        anim = GetComponent<Animator>();
     }
 
 
+    public void CallNextLevel()
+    {
+        pause.NextLevelMenu();
+    }
 	void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag =="Player")
         {
-            menu.gameObject.SetActive(true);
-            Time.timeScale = 0f;
+            anim.SetBool("isComingOut", true);   
         }
     }
 }

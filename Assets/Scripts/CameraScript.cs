@@ -22,7 +22,7 @@ public class CameraScript : MonoBehaviour
         target = FindObjectOfType<TestScript>().gameObject;
         targetPos = transform.position;
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         if (target)

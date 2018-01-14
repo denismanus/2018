@@ -8,18 +8,34 @@ public class ColorableBox : MonoBehaviour
     {
         top, right, bottom, left
     }
+    private Animator animator;
+    private Vector2 positionToTeleport;
     private bool isCollisionActiv = true;
     public Block teleportCoord;
     private Sides actualSide;
     public string typeOfTheBox;
     private string basicColor;
     public GameObject teleport;
-    private GameObject levelManager;
-
+    private LevelManager levelManager;
+    private GameObject character;
     void Start()
     {
+        animator = GetComponent<Animator>();
         basicColor = typeOfTheBox;
-        levelManager = FindObjectOfType<LevelManager>().gameObject;
+        levelManager = FindObjectOfType<LevelManager>();
+        SetTypeOfCube(basicColor);
+    }
+
+
+    public void SetTypeOfCube(string newType)
+    {
+        typeOfTheBox = newType;
+        animator.SetBool("Red", false);
+        animator.SetBool("Green", false);
+        animator.SetBool("Blue", false);
+        animator.SetBool("Purple", false);
+        animator.SetBool("Empty", false);
+        animator.SetBool(newType, true);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -34,6 +50,15 @@ public class ColorableBox : MonoBehaviour
             {
                 isCollisionActiv = true;
             }
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            animator.SetBool("isFailTeleporting", false);
+            animator.SetBool("isTeleporting", false);
         }
     }
 
@@ -92,14 +117,17 @@ public class ColorableBox : MonoBehaviour
 
     void ExchangeColor(GameObject gameObject, string charType)
     {
-        this.gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(charType);
-        gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox + "Char");
+        
+        //this.gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(charType);
+        //gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox + "Char");
         gameObject.GetComponent<TestScript>().SetTypeOfCube(typeOfTheBox);
         typeOfTheBox = charType;
+        SetTypeOfCube(typeOfTheBox);
+
     }
     GameObject FindTeleport(GameObject teleport)
     {
-        if(teleport.GetComponent<ColorableBox>().typeOfTheBox!="Green")
+        if (teleport.GetComponent<ColorableBox>().typeOfTheBox != "Green")
         {
             return FindTeleport(teleport.GetComponent<ColorableBox>().teleport);
         }
@@ -107,55 +135,75 @@ public class ColorableBox : MonoBehaviour
         {
             return teleport;
         }
-        
+
     }
+    bool CheckIfTeleportInWall(Vector2 checkPosition)
+    {
+        return levelManager.FindBlockInPosition(checkPosition);
+    }
+
     void TryTeleport(GameObject gameObject)
     {
-        if (teleport != null)
+        GameObject teleportTo = FindTeleport(teleport);
+        if (teleportTo != null)
         {
-            GameObject teleportTo = FindTeleport(teleport);
-            //if (teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            //{
-            //    teleportTo = teleport;
-            //}
-            //else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            //{
-            //    teleportTo = teleport.GetComponent<ColorableBox>().teleport;
-            //}
-            //else if(teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().typeOfTheBox == "Green")
-            //{
-            //    teleportTo = teleport.GetComponent<ColorableBox>().teleport.GetComponent<ColorableBox>().teleport;
-            //} else
-            //{
-            //    return;
-            //}
-            teleportTo.GetComponent<ColorableBox>().GetPlayerAfterTeleporting();
+            positionToTeleport = new Vector2();
+            Vector2 positionToCheck = new Vector2();
             switch (actualSide)
             {
                 case Sides.top:
-                    gameObject.GetComponent<Transform>().position = new Vector2(
-                        teleportTo.GetComponent<Transform>().position.x,
-                        teleportTo.GetComponent<Transform>().position.y - teleportTo.GetComponent<Transform>().localScale.y * 1.1f);
+                    positionToTeleport = teleportTo.GetComponent<Transform>().position;
+                    positionToCheck = teleportTo.GetComponent<Transform>().position;
+                    positionToTeleport.y -= teleportTo.GetComponent<Transform>().localScale.y * 1.1f;
+                    positionToCheck.y -= teleportTo.GetComponent<Transform>().localScale.y;
                     break;
                 case Sides.right:
-                    gameObject.GetComponent<Transform>().position = new Vector2(
-                        teleportTo.GetComponent<Transform>().position.x - teleportTo.GetComponent<Transform>().localScale.x,
-                        teleportTo.GetComponent<Transform>().position.y);
+                    positionToTeleport = teleportTo.GetComponent<Transform>().position;
+                    
+                    positionToTeleport.x -= teleportTo.GetComponent<Transform>().localScale.x;
+                    positionToCheck = positionToTeleport;
+
                     break;
                 case Sides.bottom:
-                    gameObject.GetComponent<Transform>().position = new Vector2(
-                        teleportTo.GetComponent<Transform>().position.x,
-                        teleportTo.GetComponent<Transform>().position.y + teleportTo.GetComponent<Transform>().localScale.y * 1.1f);
+                    positionToTeleport = teleportTo.GetComponent<Transform>().position;
+                    positionToCheck = teleportTo.GetComponent<Transform>().position;
+                    positionToTeleport.y += teleportTo.GetComponent<Transform>().localScale.y * 1.1f;
+                    positionToCheck.y += teleportTo.GetComponent<Transform>().localScale.y;
+
                     break;
                 case Sides.left:
-                    gameObject.GetComponent<Transform>().position = new Vector2(
-                        teleportTo.GetComponent<Transform>().position.x + teleportTo.GetComponent<Transform>().localScale.x * 1.1f,
-                        teleportTo.GetComponent<Transform>().position.y);
+                    positionToTeleport = teleportTo.GetComponent<Transform>().position;
+                    positionToCheck = teleportTo.GetComponent<Transform>().position;
+                    positionToTeleport.x += teleportTo.GetComponent<Transform>().localScale.x * 1.1f;
+                    positionToCheck.x += teleportTo.GetComponent<Transform>().localScale.x;
                     break;
             }
+            if (CheckIfTeleportInWall(positionToCheck))
+            {
+                character = gameObject;
+                animator.SetBool("isTeleporting", true);
+                teleportTo.GetComponent<ColorableBox>().GetPlayerAfterTeleporting();
+            }
+            else
+            {
+                animator.SetBool("isFailTeleporting", true);
+            }
+        }
+        else
+        {
+            animator.SetBool("isFailTeleporting", true);
         }
     }
 
+    public void EndTeleporting()
+    {
+        animator.SetBool("isTeleporting", false);
+        character.GetComponent<Transform>().position = positionToTeleport;
+    }
+    public void EndFailTeleporting()
+    {
+        animator.SetBool("isFailTeleporting", false);
+    }
     void GetPlayerAfterTeleporting()
     {
         isCollisionActiv = false;

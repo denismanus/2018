@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212734536201283486}
   - component: {fileID: 114220786331206952}
   - component: {fileID: 61259042304246104}
+  - component: {fileID: 95924456193544832}
   m_Layer: 8
   m_Name: Red
   m_TagString: Untagged
@@ -67,6 +68,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &95924456193544832
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294301112908252}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a06469237d25b3f43bea5e28e7bfe230, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114220786331206952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -78,8 +96,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6008ed565abd4c145a25a7b7ba2a9dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teleportCoord:
+    x: 0
+    y: 0
   typeOfTheBox: Red
-  positionOfTeleport: {fileID: 0}
+  teleport: {fileID: 0}
 --- !u!212 &212734536201283486
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -114,7 +135,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300004, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

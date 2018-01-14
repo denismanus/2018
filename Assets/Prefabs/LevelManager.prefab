@@ -53,29 +53,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - color: Simple
-    sprite: {fileID: 21300000, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300000, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: EmptyChar
-    sprite: {fileID: 21300002, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300028, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: Red
-    sprite: {fileID: 21300004, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300002, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: RedChar
-    sprite: {fileID: 21300006, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300030, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: Blue
-    sprite: {fileID: 21300008, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300004, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: BlueChar
-    sprite: {fileID: 21300010, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300032, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: Empty
-    sprite: {fileID: 21300012, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300006, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: ExitBlock
-    sprite: {fileID: 21300016, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300238, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: Green
-    sprite: {fileID: 21300020, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300014, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: GreenChar
-    sprite: {fileID: 21300018, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300138, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: Pointer
     sprite: {fileID: 21300014, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
   - color: Purple
-    sprite: {fileID: 21300024, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300012, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: PurpleChar
-    sprite: {fileID: 21300022, guid: 9a3d29d389a3f2142b9086e303cbcf44, type: 3}
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   backGround: {fileID: 0}
