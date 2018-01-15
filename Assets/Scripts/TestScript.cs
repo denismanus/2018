@@ -62,7 +62,7 @@ public class TestScript : MonoBehaviour, IResetable
     public void Jump()
     {
 
-        switch(gravity)
+        switch (gravity)
         {
             case 0:
                 body.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
@@ -115,7 +115,7 @@ public class TestScript : MonoBehaviour, IResetable
         {
             isFacedRight = true;
         }
-        else if(move > 0)
+        else if (move > 0)
         {
             isFacedRight = false;
         }
@@ -126,7 +126,7 @@ public class TestScript : MonoBehaviour, IResetable
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Danger")
+        if (coll.gameObject.tag == "Danger" || coll.gameObject.tag == "Saw")
         {
             levelManager.GetComponent<LevelManager>().ResetLevel();
         }

@@ -89,3 +89,6 @@ MonoBehaviour:
   - type: Start
     gameObject: {fileID: 1929312215143752, guid: 2016efde76a6cbe46acfd4007c2a296f,
       type: 2}
+  - type: Saw
+    gameObject: {fileID: 1805921395728996, guid: 340e009429bac49478c97181d75f5b46,
+      type: 2}

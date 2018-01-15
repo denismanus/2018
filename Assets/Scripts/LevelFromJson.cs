@@ -38,6 +38,11 @@ public class LevelFromJson : MonoBehaviour
             pos = new Vector2(b.x, b.y);
             levelManager.AddObj(Instantiate(prefabs.GetPrefab("Danger"), pos, Quaternion.identity, transform));
         }
+        foreach (Block b in level.Saw)
+        {
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("Saw"), pos, Quaternion.identity, transform));
+        }
         foreach (ColorBlock b in level.Red)
         {
             pos = new Vector2(b.position.x, b.position.y);
@@ -66,6 +71,13 @@ public class LevelFromJson : MonoBehaviour
             levelManager.AddColorableBox(purple);
             purple.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
         }
+        foreach (ColorBlock b in level.Empty)
+        {
+            pos = new Vector2(b.position.x, b.position.y);
+            GameObject empty = Instantiate(prefabs.GetPrefab("Empty"), pos, Quaternion.identity, transform);
+            levelManager.AddColorableBox(empty);
+            empty.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+        }
         pos = new Vector2(level.Start.x, level.Start.y);
         levelManager.AddObj(Instantiate(prefabs.GetPrefab("Start"), pos, Quaternion.identity, transform));
         pos = new Vector2(level.Exit.x, level.Exit.y);
@@ -80,8 +92,10 @@ public class LevelFromJson : MonoBehaviour
     }
     public void nextlevel()
     {
-        if (StaticData.currentLevel < allLevels.Length)
+        if (StaticData.currentLevel < allLevels.Length - 1)
         {
+            Debug.Log(StaticData.currentLevel);
+            Debug.Log(allLevels.Length);
             StaticData.currentLevel++;
             levelManager.DestroyObjects();
             level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
@@ -102,10 +116,12 @@ public class Level
 {
     public Block[] SimpleBlock;
     public Block[] Danger;
+    public Block[] Saw;
     public ColorBlock[] Red;
     public ColorBlock[] Green;
     public ColorBlock[] Blue;
     public ColorBlock[] Purple;
+    public ColorBlock[] Empty;
     public Block Start;
     public Block Exit;
 }

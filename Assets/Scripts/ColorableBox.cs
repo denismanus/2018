@@ -111,7 +111,8 @@ public class ColorableBox : MonoBehaviour
     public void Reset()
     {
         typeOfTheBox = basicColor;
-        gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox);
+        SetTypeOfCube(basicColor);
+        //gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox);
     }
 
 
