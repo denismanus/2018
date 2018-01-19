@@ -84,6 +84,7 @@ public class ColorableBox : MonoBehaviour
     {
 
         GetComponent<BoxCollider2D>().isTrigger = false;
+        this.gameObject.layer = 8;
         string charType = gameObject.GetComponent<TestScript>().GetTypeOfCube();
         if (charType != typeOfTheBox)
         {
@@ -92,6 +93,7 @@ public class ColorableBox : MonoBehaviour
         else if (charType == "Blue" && typeOfTheBox == "Blue")
         {
             GetComponent<BoxCollider2D>().isTrigger = true;
+            this.gameObject.layer = 0;
         }
         else if (charType == "Red")
         {
@@ -112,15 +114,12 @@ public class ColorableBox : MonoBehaviour
     {
         typeOfTheBox = basicColor;
         SetTypeOfCube(basicColor);
-        //gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox);
     }
 
 
     void ExchangeColor(GameObject gameObject, string charType)
     {
-        
-        //this.gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(charType);
-        //gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfTheBox + "Char");
+
         gameObject.GetComponent<TestScript>().SetTypeOfCube(typeOfTheBox);
         typeOfTheBox = charType;
         SetTypeOfCube(typeOfTheBox);
@@ -258,6 +257,7 @@ public class ColorableBox : MonoBehaviour
 
     private void GetSideCollision(Collider2D gameObject)
     {
+        
         switch (gameObject.name)
         {
             case "Left":
@@ -273,5 +273,6 @@ public class ColorableBox : MonoBehaviour
                 actualSide = Sides.top;
                 break;
         }
+        Debug.Log(actualSide);
     }
 }

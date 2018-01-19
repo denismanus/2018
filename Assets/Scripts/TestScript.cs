@@ -7,6 +7,7 @@ public class TestScript : MonoBehaviour, IResetable
 
     public string typeOfCube = "Empty";
     private int gravity = 0;
+    private bool isStuned = false;
     private bool isFacedRight = true;
     private float maxSpeed = 4f;
     private float jumpPower = 6.5f;
@@ -42,7 +43,13 @@ public class TestScript : MonoBehaviour, IResetable
         return typeOfCube;
     }
 
-
+    public void SetStun(bool state)
+    {
+        isStuned = state;
+        animator.SetFloat("Speed", 0);
+        body.isKinematic = state;
+        body.velocity = new Vector3();
+    }
     public void SetTypeOfCube(string newType)
     {
         typeOfCube = newType;
@@ -61,46 +68,53 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void Jump()
     {
-
-        switch (gravity)
+        if (!isStuned)
         {
-            case 0:
-                body.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
-                break;
-            case 1:
-                body.AddForce(new Vector2(-jumpPower, 0), ForceMode2D.Impulse);
-                break;
-            case 2:
-                body.AddForce(new Vector2(0, -jumpPower), ForceMode2D.Impulse);
-                break;
-            case 3:
-                body.AddForce(new Vector2(jumpPower, 0), ForceMode2D.Impulse);
-                break;
+            switch (gravity)
+            {
+                case 0:
+                    body.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+                    break;
+                case 1:
+                    body.AddForce(new Vector2(-jumpPower, 0), ForceMode2D.Impulse);
+                    break;
+                case 2:
+                    body.AddForce(new Vector2(0, -jumpPower), ForceMode2D.Impulse);
+                    break;
+                case 3:
+                    body.AddForce(new Vector2(jumpPower, 0), ForceMode2D.Impulse);
+                    break;
+            }
         }
     }
 
     public void Move(float move)
     {
-        switch (gravity)
+        if (!isStuned)
         {
-            case 0:
-                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-                body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
-                break;
-            case 1:
-                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-                body.velocity = new Vector3(body.velocity.x, maxSpeed * move);
-                break;
-            case 2:
-                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-                body.velocity = new Vector3(-maxSpeed * move, body.velocity.y);
-                break;
-            case 3:
-                gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
-                body.velocity = new Vector3(body.velocity.x, -maxSpeed * move);
-                break;
+            animator.SetFloat("Speed", Mathf.Abs(move));
+            switch (gravity)
+            {
+                case 0:
+                    gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                    body.velocity = new Vector3(maxSpeed * move, body.velocity.y);
+                    break;
+                case 1:
+                    gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                    body.velocity = new Vector3(body.velocity.x, maxSpeed * move);
+                    break;
+                case 2:
+                    gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                    body.velocity = new Vector3(-maxSpeed * move, body.velocity.y);
+                    break;
+                case 3:
+                    gameObject.GetComponent<SpriteRenderer>().flipX = isFacedRight;
+                    body.velocity = new Vector3(body.velocity.x, -maxSpeed * move);
+                    break;
+            }
         }
     }
+
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -110,7 +124,6 @@ public class TestScript : MonoBehaviour, IResetable
             Jump();
         }
         float move = Input.GetAxis("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(move));
         if (move < 0)
         {
             isFacedRight = true;
@@ -122,8 +135,6 @@ public class TestScript : MonoBehaviour, IResetable
         Move(move);
     }
 
-
-
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Danger" || coll.gameObject.tag == "Saw")
@@ -131,6 +142,9 @@ public class TestScript : MonoBehaviour, IResetable
             levelManager.GetComponent<LevelManager>().ResetLevel();
         }
     }
+
+
+
     void OnDestroy()
     {
         Physics2D.gravity = new Vector3(0, -9.82f, 0);
@@ -139,10 +153,10 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void Reset()
     {
+        SetTypeOfCube("Empty");
         Physics2D.gravity = new Vector3(0, -9.82f, 0);
         SetGravity(0);
-        body.velocity = new Vector2(0, 0);
-        SetTypeOfCube("Empty");
+        body.velocity = new Vector2(0, 0);  
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfCube + "Char");
         transform.position = startPosition;
     }

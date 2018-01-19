@@ -22,7 +22,8 @@ public class ExitBlock : MonoBehaviour {
     {
         if (collision.gameObject.tag =="Player")
         {
-            anim.SetBool("isComingOut", true);   
+            anim.SetBool("isComingOut", true);
+            collision.gameObject.GetComponent<TestScript>().SetStun(true);
         }
     }
 }

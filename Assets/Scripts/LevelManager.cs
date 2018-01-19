@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
 {
     public StringToSprite[] sprites;
     private List<GameObject> objectList = new List<GameObject>();
+    private List<GameObject> walls = new List<GameObject>();
+    private GameObject character;
     private List<GameObject> colorableBox = new List<GameObject>();
     public GameObject backGround;
 
@@ -16,11 +18,20 @@ public class LevelManager : MonoBehaviour
     {
     }
 
+    public void SetChar(GameObject character)
+    {
+        this.character = character;
+    }
+    public void AddWall(GameObject wall)
+    {
+        walls.Add(wall);
+    }
+
     public void SetTeleports()
     {
-       foreach(GameObject a in colorableBox)
+        foreach (GameObject a in colorableBox)
         {
-            foreach(GameObject b in colorableBox)
+            foreach (GameObject b in colorableBox)
             {
                 if (!a.Equals(b))
                 {
@@ -38,17 +49,12 @@ public class LevelManager : MonoBehaviour
 
     public bool FindBlockInPosition(Vector2 vect)
     {
-        Debug.Log(vect);
-        foreach (GameObject wall in objectList)
+        foreach (GameObject wall in walls)
         {
-            if(wall.name == "SimpleBlock(Clone)")
+            if (wall.GetComponent<Transform>().position.x == vect.x && wall.GetComponent<Transform>().position.y == vect.y)
             {
-                
-                if(wall.GetComponent<Transform>().position.x== vect.x && wall.GetComponent<Transform>().position.y == vect.y)
-                {
-                    
-                    return false;
-                }
+
+                return false;
             }
         }
         return true;
@@ -70,6 +76,8 @@ public class LevelManager : MonoBehaviour
     {
         objectList.Clear();
         colorableBox.Clear();
+        walls.Clear();
+        character = null;
     }
     public void AddObj(GameObject obj)
     {
@@ -81,20 +89,20 @@ public class LevelManager : MonoBehaviour
     }
     public void ResetLevel()
     {
-        foreach (GameObject box in objectList)
-        {
-            if (box.gameObject.GetComponent<TestScript>())
-            {
-                box.gameObject.GetComponent<TestScript>().Reset();
-            }
-        }
+        
+        character.GetComponent<TestScript>().Reset();
         foreach (GameObject box in colorableBox)
         {
             box.GetComponent<ColorableBox>().Reset();
         }
     }
+
     public void DestroyObjects()
     {
+        foreach(GameObject wall in walls)
+        {
+            Destroy(wall);
+        }
         foreach (GameObject box in objectList)
         {
             Destroy(box);
@@ -103,6 +111,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(box);
         }
+        Destroy(character);
     }
 }
 
