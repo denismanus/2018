@@ -45,9 +45,10 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void SetStun(bool state)
     {
+        body.gravityScale = state == false ? 1.0f : 0.0f;
         isStuned = state;
         animator.SetFloat("Speed", 0);
-        body.isKinematic = state;
+        //body.isKinematic = state;
         body.velocity = new Vector3();
     }
     public void SetTypeOfCube(string newType)
@@ -137,13 +138,24 @@ public class TestScript : MonoBehaviour, IResetable
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Danger" || coll.gameObject.tag == "Saw")
+        if (coll.gameObject.tag == "Danger")
         {
-            levelManager.GetComponent<LevelManager>().ResetLevel();
+            KillCharacter();
+        } else if(coll.gameObject.tag == "Saw")
+        {
+            SetStun(true);
+            animator.SetBool("isDying", true);
         }
     }
 
-
+    public void KillCharacter()
+    {
+        levelManager.GetComponent<LevelManager>().ResetLevel();
+    }
+    public void Teleport(bool isTelporting)
+    {
+        animator.SetBool("isTeleporting", isTelporting);
+    }
 
     void OnDestroy()
     {
@@ -153,6 +165,9 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void Reset()
     {
+        animator.SetBool("isDying", false);
+        SetStun(false);
+        Teleport(false);
         SetTypeOfCube("Empty");
         Physics2D.gravity = new Vector3(0, -9.82f, 0);
         SetGravity(0);

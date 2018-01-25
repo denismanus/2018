@@ -18,12 +18,14 @@ public class ExitBlock : MonoBehaviour {
     {
         pause.NextLevelMenu();
     }
+
 	void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag =="Player")
         {
             anim.SetBool("isComingOut", true);
             collision.gameObject.GetComponent<TestScript>().SetStun(true);
+            collision.gameObject.GetComponent<TestScript>().Teleport(true);
         }
     }
 }

@@ -74,7 +74,7 @@ public class PauseMenu : MonoBehaviour
     {
         isLevelEnded = false;
         menu.gameObject.SetActive(false);
-        levelFromJson.nextlevel();
+        levelFromJson.Nextlevel();
         Time.timeScale = 1f;
     }
 

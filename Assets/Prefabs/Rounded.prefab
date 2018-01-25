@@ -419,7 +419,7 @@ MonoBehaviour:
   typeOfCube: Empty
   isGrounded: 1
   groundCheck: {fileID: 4447179124023700}
-  groundRadius: 0.37
+  groundRadius: 0.38
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256

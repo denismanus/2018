@@ -13,7 +13,10 @@ public class AudioController : MonoBehaviour {
 
     public void Play()
     {
-        source.UnPause();
+        if (StaticData.isSounded)
+        {
+            source.UnPause();
+        }
     }
 
     public void Pause()
@@ -23,6 +26,9 @@ public class AudioController : MonoBehaviour {
 
     public void PlayFromBegin()
     {
-        source.Play();
+        if (StaticData.isSounded)
+        {
+            source.Play();
+        }
     }
 }

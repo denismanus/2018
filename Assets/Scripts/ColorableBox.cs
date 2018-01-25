@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections;
 using UnityEngine;
 
 public class ColorableBox : MonoBehaviour
@@ -18,8 +18,10 @@ public class ColorableBox : MonoBehaviour
     public GameObject teleport;
     private LevelManager levelManager;
     private GameObject character;
+    public bool isCharacterInside = false;
     void Start()
     {
+
         animator = GetComponent<Animator>();
         basicColor = typeOfTheBox;
         levelManager = FindObjectOfType<LevelManager>();
@@ -59,6 +61,14 @@ public class ColorableBox : MonoBehaviour
         {
             animator.SetBool("isFailTeleporting", false);
             animator.SetBool("isTeleporting", false);
+            isCharacterInside = false;
+        }
+    }
+    void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            isCharacterInside = false;
         }
     }
 
@@ -66,6 +76,7 @@ public class ColorableBox : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player")
         {
+            isCharacterInside = true;
             if (isCollisionActiv)
             {
                 ColorCheck(coll.gameObject);
@@ -83,17 +94,27 @@ public class ColorableBox : MonoBehaviour
     void ColorCheck(GameObject gameObject)
     {
 
-        GetComponent<BoxCollider2D>().isTrigger = false;
-        this.gameObject.layer = 8;
         string charType = gameObject.GetComponent<TestScript>().GetTypeOfCube();
         if (charType != typeOfTheBox)
         {
+            Debug.Log("here");
+            if(typeOfTheBox=="Blue")
+            {
+                levelManager.ChangeBlueTrigger(true);
+                SetTriggers(false);
+            }
+            else
+            {
+                levelManager.ChangeBlueTrigger(false);
+            }
             ExchangeColor(gameObject, charType);
         }
-        else if (charType == "Blue" && typeOfTheBox == "Blue")
+        else if (charType == "Blue")
         {
-            GetComponent<BoxCollider2D>().isTrigger = true;
-            this.gameObject.layer = 0;
+           
+            //SetTriggers(true);
+            //this.gameObject.layer = 0;
+            //transform.parent.gameObject.layer = 0;
         }
         else if (charType == "Red")
         {
@@ -113,6 +134,7 @@ public class ColorableBox : MonoBehaviour
     public void Reset()
     {
         typeOfTheBox = basicColor;
+        SetTriggers(false);
         SetTypeOfCube(basicColor);
     }
 
@@ -127,9 +149,9 @@ public class ColorableBox : MonoBehaviour
     }
     GameObject FindTeleport(GameObject teleport)
     {
-        if (teleport.GetComponent<ColorableBox>().typeOfTheBox != "Green")
+        if (teleport.GetComponentInChildren<ColorableBox>().typeOfTheBox != "Green")
         {
-            return FindTeleport(teleport.GetComponent<ColorableBox>().teleport);
+            return FindTeleport(teleport.GetComponentInChildren<ColorableBox>().teleport);
         }
         else
         {
@@ -181,8 +203,10 @@ public class ColorableBox : MonoBehaviour
             if (CheckIfTeleportInWall(positionToCheck))
             {
                 character = gameObject;
+                gameObject.GetComponent<TestScript>().SetStun(true);
                 animator.SetBool("isTeleporting", true);
-                teleportTo.GetComponent<ColorableBox>().GetPlayerAfterTeleporting();
+                character.GetComponent<TestScript>().Teleport(true);
+                teleportTo.GetComponentInChildren<ColorableBox>().GetPlayerAfterTeleporting();
             }
             else
             {
@@ -195,10 +219,47 @@ public class ColorableBox : MonoBehaviour
         }
     }
 
+    public void SetTriggers(bool value)
+    {
+
+        if (!isCharacterInside)
+        {
+            transform.parent.GetComponent<BoxCollider2D>().isTrigger = value;
+            foreach (BoxCollider2D box in GetComponents<BoxCollider2D>())
+            {
+                box.isTrigger = value;
+            }
+            if (value)
+            {
+                gameObject.layer = 0;
+                transform.parent.gameObject.layer = 0;
+            }
+            else
+            {
+                gameObject.layer = 8;
+                transform.parent.gameObject.layer = 8;
+            }
+        }
+        else
+        {
+            Debug.Log("gere");
+            StartCoroutine(Wait(value));
+        }
+    }
+    
+    IEnumerator Wait(bool value)
+    {
+        yield return new WaitForSeconds(0.6f);
+        SetTriggers(value);
+    }
+
+    
     public void EndTeleporting()
     {
+        character.GetComponent<TestScript>().Teleport(false);
         animator.SetBool("isTeleporting", false);
         character.GetComponent<Transform>().position = positionToTeleport;
+        character.GetComponent<TestScript>().SetStun(false);
     }
     public void EndFailTeleporting()
     {
@@ -273,6 +334,5 @@ public class ColorableBox : MonoBehaviour
                 actualSide = Sides.top;
                 break;
         }
-        Debug.Log(actualSide);
     }
 }

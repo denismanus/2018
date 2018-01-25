@@ -35,11 +35,11 @@ public class LevelManager : MonoBehaviour
             {
                 if (!a.Equals(b))
                 {
-                    if (a.GetComponent<ColorableBox>().teleportCoord.x
-                    == (int)b.GetComponent<Transform>().position.x && a.GetComponent<ColorableBox>().teleportCoord.y
-                    == (int)b.GetComponent<Transform>().position.y)
+                    if (a.GetComponentInChildren<ColorableBox>().teleportCoord.x
+                    == (int)b.GetComponentInChildren<Transform>().position.x && a.GetComponentInChildren<ColorableBox>().teleportCoord.y
+                    == (int)b.GetComponentInChildren<Transform>().position.y)
                     {
-                        a.GetComponent<ColorableBox>().teleport = b;
+                        a.GetComponentInChildren<ColorableBox>().teleport = b;
                         break;
                     }
                 }
@@ -58,6 +58,17 @@ public class LevelManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void ChangeBlueTrigger(bool value)
+    {
+        foreach (GameObject box in colorableBox)
+        {
+            if (box.GetComponentInChildren<ColorableBox>().typeOfTheBox == "Blue")
+            {
+                box.GetComponentInChildren<ColorableBox>().SetTriggers(value);
+            }
+        }
     }
 
     public Sprite GetSprite(string name)
@@ -89,17 +100,17 @@ public class LevelManager : MonoBehaviour
     }
     public void ResetLevel()
     {
-        
+
         character.GetComponent<TestScript>().Reset();
         foreach (GameObject box in colorableBox)
         {
-            box.GetComponent<ColorableBox>().Reset();
+            box.GetComponentInChildren<ColorableBox>().Reset();
         }
     }
 
     public void DestroyObjects()
     {
-        foreach(GameObject wall in walls)
+        foreach (GameObject wall in walls)
         {
             Destroy(wall);
         }

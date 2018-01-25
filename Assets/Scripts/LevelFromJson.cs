@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using UnityEngine.SceneManagement;
 
 public class LevelFromJson : MonoBehaviour
 {
 
     private Level level;
+    private Effects effects;
     private Object[] allLevels;
     public StringToPrefab prefabs;
     private LevelManager levelManager;
@@ -16,11 +17,11 @@ public class LevelFromJson : MonoBehaviour
 
     void Start()
     {
-        allLevels = Resources.LoadAll("Levels");
+        effects = FindObjectOfType<Effects>();
+        allLevels = Resources.LoadAll("Levels/Json");
         cameraScript = FindObjectOfType<CameraScript>().gameObject;
         levelManager = FindObjectOfType<LevelManager>();
-        level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
-        GenerateLevel();
+        CurrentLevel();
     }
 
 
@@ -30,7 +31,7 @@ public class LevelFromJson : MonoBehaviour
         Vector2 pos;
         foreach (Block b in level.SimpleBlock)
         {
-            pos = new Vector2(b.x, b.y);        
+            pos = new Vector2(b.x, b.y);
             levelManager.AddWall(Instantiate(prefabs.GetPrefab("SimpleBlock"), pos, Quaternion.identity, transform));
         }
         foreach (Block b in level.Danger)
@@ -48,35 +49,35 @@ public class LevelFromJson : MonoBehaviour
             pos = new Vector2(b.position.x, b.position.y);
             GameObject red = Instantiate(prefabs.GetPrefab("Red"), pos, Quaternion.identity, transform);
             levelManager.AddColorableBox(red);
-            red.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+            red.GetComponentInChildren<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Green)
         {
             pos = new Vector2(b.position.x, b.position.y);
             GameObject green = Instantiate(prefabs.GetPrefab("Green"), pos, Quaternion.identity, transform);
             levelManager.AddColorableBox(green);
-            green.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+            green.GetComponentInChildren<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Blue)
         {
             pos = new Vector2(b.position.x, b.position.y);
             GameObject blue = Instantiate(prefabs.GetPrefab("Blue"), pos, Quaternion.identity, transform);
             levelManager.AddColorableBox(blue);
-            blue.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+            blue.GetComponentInChildren<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Purple)
         {
             pos = new Vector2(b.position.x, b.position.y);
             GameObject purple = Instantiate(prefabs.GetPrefab("Purple"), pos, Quaternion.identity, transform);
             levelManager.AddColorableBox(purple);
-            purple.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+            purple.GetComponentInChildren<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         foreach (ColorBlock b in level.Empty)
         {
             pos = new Vector2(b.position.x, b.position.y);
             GameObject empty = Instantiate(prefabs.GetPrefab("Empty"), pos, Quaternion.identity, transform);
             levelManager.AddColorableBox(empty);
-            empty.GetComponent<ColorableBox>().teleportCoord = b.teleportPosition;
+            empty.GetComponentInChildren<ColorableBox>().teleportCoord = b.teleportPosition;
         }
         pos = new Vector2(level.Start.x, level.Start.y);
         levelManager.SetChar(Instantiate(prefabs.GetPrefab("Start"), pos, Quaternion.identity, transform));
@@ -85,6 +86,7 @@ public class LevelFromJson : MonoBehaviour
         levelManager.SetTeleports();
         SetCameraBoundaries();
     }
+
     public void SetCameraBoundaries()
     {
         cameraBoundaries[0] = level.SimpleBlock[0].x;
@@ -94,12 +96,12 @@ public class LevelFromJson : MonoBehaviour
 
         foreach (Block block in level.SimpleBlock)
         {
-            if(block.x < cameraBoundaries[0])
+            if (block.x < cameraBoundaries[0])
             {
                 cameraBoundaries[0] = block.x;
             }
 
-            if(block.x > cameraBoundaries[1])
+            if (block.x > cameraBoundaries[1])
             {
                 cameraBoundaries[1] = block.x;
             }
@@ -116,33 +118,56 @@ public class LevelFromJson : MonoBehaviour
         }
         cameraScript.GetComponent<CameraScript>().SetBoundaries(cameraBoundaries[0], cameraBoundaries[1], cameraBoundaries[2], cameraBoundaries[3]);
     }
-    public void SelectLevel(int i)
+
+
+    public void CurrentLevel()
     {
-        StaticData.currentLevel = i;
-        levelManager.DestroyObjects();
-        GenerateLevel();
+        StaticData.MethodToDelegate fillLevel = LoadLevel;
+        if (StaticData.currentLevel > PlayerPrefs.GetInt("CompletedLevel"))
+        {
+            PlayerPrefs.SetInt("CompletedLevel", StaticData.currentLevel);
+        }
+        StartCoroutine(FadeBerweenLevelLoads(fillLevel));
     }
-    public void nextlevel()
+    public void Nextlevel()
+    {   
+        StaticData.currentLevel++;
+        CurrentLevel();
+    }
+
+    private void LoadLevel()
     {
         if (StaticData.currentLevel < allLevels.Length - 1)
         {
-            Debug.Log(StaticData.currentLevel);
-            Debug.Log(allLevels.Length);
-            StaticData.currentLevel++;
             levelManager.DestroyObjects();
             level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
             GenerateLevel();
             cameraScript.GetComponent<CameraScript>().FindCharacter();
             SetCameraBoundaries();
-            Time.timeScale= 1f;
-            //levelmanager.resetlevel();
+            Time.timeScale = 1f;
         }
         else
         {
-            Debug.Log("end");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
+    IEnumerator FadeBerweenLevelLoads(StaticData.MethodToDelegate method)
+    {
+        if (StaticData.isFirstLoadOfLevel)
+        {
+            method.Invoke();
+            effects.FadeCurtain(true, 2, null);
+            StaticData.isFirstLoadOfLevel = false;
+        }
+        else
+        {
+            effects.FadeCurtain(false, 1, method);
+            yield return new WaitForSeconds(1);
+            effects.FadeCurtain(true, 1, null);
+        }
+        
+    }
 }
 
 [System.Serializable]
