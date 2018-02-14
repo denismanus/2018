@@ -83,7 +83,14 @@ public class MainMenu : MonoBehaviour
                     nbutton.onClick.AddListener(() => SelectLevel());
                     go.name = levels[i].name;
                     Image buttonImage = go.GetComponent<Image>();
-                    buttonImage.sprite = levelImages[i];
+                    if (i < levelImages.Length)
+                    {
+                        buttonImage.sprite = levelImages[i];
+                    }
+                    else
+                    {
+                        buttonImage.sprite = levelImages[0];
+                    }
                 }
                 else
                 {
