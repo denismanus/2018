@@ -137,7 +137,7 @@ public class LevelFromJson : MonoBehaviour
 
     private void LoadLevel()
     {
-        if (StaticData.currentLevel < allLevels.Length - 1)
+        if (StaticData.currentLevel < allLevels.Length)
         {
             levelManager.DestroyObjects();
             level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
