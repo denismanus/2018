@@ -25,15 +25,18 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)&&!isLevelEnded)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (!isLevelEnded)
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                if (isPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
@@ -57,7 +60,7 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         isPaused = false;
-        audioController.Play();
+        audioController.PlayFromBegin();
         UIpauseMenu.SetActive(false);
         levelManager.GetComponent<LevelManager>().ResetLevel();
         Time.timeScale = 1f;
@@ -65,6 +68,7 @@ public class PauseMenu : MonoBehaviour
 
     public void NextLevelMenu()
     {
+        
         isLevelEnded = true;
         menu.gameObject.SetActive(true);
         Time.timeScale = 0f;
@@ -72,6 +76,7 @@ public class PauseMenu : MonoBehaviour
 
     public void NextLevel()
     {
+   
         isLevelEnded = false;
         menu.gameObject.SetActive(false);
         levelFromJson.Nextlevel();
@@ -80,6 +85,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
+        audioController.Pause();
         isPaused = false;
         UIpauseMenu.SetActive(false);
         Time.timeScale = 1f;

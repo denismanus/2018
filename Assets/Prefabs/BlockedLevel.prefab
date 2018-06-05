@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222077030402618716}
   - component: {fileID: 114548010911675480}
   - component: {fileID: 114449379522765482}
+  - component: {fileID: 114866961161973090}
   m_Layer: 5
   m_Name: BlockedLevel
   m_TagString: Untagged
@@ -147,6 +148,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 13
+--- !u!114 &114866961161973090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099564216069068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f674523ceec9ed540a514f61784f3311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222077030402618716
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -8,11 +8,14 @@ public class ColorableBox : MonoBehaviour
     {
         top, right, bottom, left
     }
+    private static bool isInAction = false;
+    private bool isInCollision = false;
     private Animator animator;
     private Vector2 positionToTeleport;
     private bool isCollisionActiv = true;
     public Block teleportCoord;
     private Sides actualSide;
+    private Sides gravitySide;
     public string typeOfTheBox;
     private string basicColor;
     public GameObject teleport;
@@ -42,21 +45,27 @@ public class ColorableBox : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if (!isInCollision)
         {
-            if (isCollisionActiv)
+            isInCollision = true;
+            if (coll.gameObject.tag == "Player")
             {
-                ColorCheck(coll.gameObject);
-            }
-            else
-            {
-                isCollisionActiv = true;
+                if (isCollisionActiv)
+                {
+                    ColorCheck(coll.gameObject);
+                }
+                else
+                {
+                    isCollisionActiv = true;
+                }
             }
         }
+        
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
+        isInCollision = false;
         if (coll.gameObject.tag == "Player")
         {
             animator.SetBool("isFailTeleporting", false);
@@ -89,6 +98,10 @@ public class ColorableBox : MonoBehaviour
         else if (coll.gameObject.tag == "Side")
         {
             GetSideCollision(coll);
+        } 
+        else if(coll.gameObject.tag == "GravityDetect")
+        {
+            GetGravityCollision(coll);
         }
     }
     void ColorCheck(GameObject gameObject)
@@ -97,7 +110,6 @@ public class ColorableBox : MonoBehaviour
         string charType = gameObject.GetComponent<TestScript>().GetTypeOfCube();
         if (charType != typeOfTheBox)
         {
-            Debug.Log("here");
             if(typeOfTheBox=="Blue")
             {
                 levelManager.ChangeBlueTrigger(true);
@@ -166,12 +178,13 @@ public class ColorableBox : MonoBehaviour
 
     void TryTeleport(GameObject gameObject)
     {
+
         GameObject teleportTo = FindTeleport(teleport);
         if (teleportTo != null)
         {
             positionToTeleport = new Vector2();
             Vector2 positionToCheck = new Vector2();
-            switch (actualSide)
+            switch (gravitySide)
             {
                 case Sides.top:
                     positionToTeleport = teleportTo.GetComponent<Transform>().position;
@@ -202,11 +215,14 @@ public class ColorableBox : MonoBehaviour
             }
             if (CheckIfTeleportInWall(positionToCheck))
             {
+               
                 character = gameObject;
+                character.GetComponent<TestScript>().isConrtolBlocked = true;
                 gameObject.GetComponent<TestScript>().SetStun(true);
                 animator.SetBool("isTeleporting", true);
                 character.GetComponent<TestScript>().Teleport(true);
                 teleportTo.GetComponentInChildren<ColorableBox>().GetPlayerAfterTeleporting();
+                StartCoroutine(Teleporting());
             }
             else
             {
@@ -242,25 +258,38 @@ public class ColorableBox : MonoBehaviour
         }
         else
         {
-            Debug.Log("gere");
             StartCoroutine(Wait(value));
         }
     }
-    
+    IEnumerator Teleporting()
+    {
+        yield return new WaitForSeconds(0.7f);
+        EndTeleporting();
+    }
     IEnumerator Wait(bool value)
     {
         yield return new WaitForSeconds(0.6f);
         SetTriggers(value);
     }
 
-    
+    IEnumerator StartAction()
+    {
+        isInAction = true;
+        yield return new WaitForSeconds(0.1f);
+        isInAction = false;
+    }
+
+
     public void EndTeleporting()
     {
+       
         character.GetComponent<TestScript>().Teleport(false);
         animator.SetBool("isTeleporting", false);
         character.GetComponent<Transform>().position = positionToTeleport;
         character.GetComponent<TestScript>().SetStun(false);
+        character.GetComponent<TestScript>().isConrtolBlocked = false;
     }
+    
     public void EndFailTeleporting()
     {
         animator.SetBool("isFailTeleporting", false);
@@ -271,7 +300,7 @@ public class ColorableBox : MonoBehaviour
     }
     void ChangeGravity(GameObject gameObject)
     {
-        switch (actualSide)
+        switch (gravitySide)
         {
             case Sides.top:
                 Physics2D.gravity = new Vector3(0, -9.82f, 0);
@@ -297,28 +326,39 @@ public class ColorableBox : MonoBehaviour
         Vector2 player = gameObject.GetComponent<Transform>().position;
         Vector2 block = this.GetComponent<Transform>().position;
         Vector2 push = new Vector2();
-        if (actualSide == Sides.bottom)
+        int gravity = gameObject.GetComponent<TestScript>().GetGravity();
+      
+        switch (gravity)
         {
-            push = new Vector2(0, 11);
+            case 0:
+                push = new Vector2(0, 11);
+                break;
+            case 1:
+                push = new Vector2(-11, 0);
+                break;
+            case 2:
+                push = new Vector2(0, -11);
+                break;
+            case 3:
+                push = new Vector2(11, 0);
+                break;
         }
-        else if (actualSide == Sides.left)
+
+        if(!isInAction)
         {
-            push = new Vector2(11, 0);
+            Debug.Log(actualSide);
+            if (actualSide == Sides.bottom)
+            {
+                StartCoroutine(StartAction());
+                gameObject.GetComponent<TestScript>().Push(push);
+            }
         }
-        else if (actualSide == Sides.right)
-        {
-            push = new Vector2(-11, 0);
-        }
-        else
-        {
-            push = new Vector2(0, 11);
-        }
-        gameObject.GetComponent<TestScript>().Push(push);
+        
     }
 
     private void GetSideCollision(Collider2D gameObject)
     {
-        
+
         switch (gameObject.name)
         {
             case "Left":
@@ -335,4 +375,24 @@ public class ColorableBox : MonoBehaviour
                 break;
         }
     }
+    private void GetGravityCollision(Collider2D gameObject)
+    {
+        switch (gameObject.name)
+        {
+            case "Left":
+                gravitySide = Sides.left;
+                break;
+            case "Bottom":
+                gravitySide = Sides.bottom;
+                break;
+            case "Right":
+                gravitySide = Sides.right;
+                break;
+            case "Top":
+                gravitySide = Sides.top;
+                break;
+        }
+    }
+
+    
 }

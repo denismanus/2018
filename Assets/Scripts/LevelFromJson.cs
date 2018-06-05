@@ -84,7 +84,7 @@ public class LevelFromJson : MonoBehaviour
         pos = new Vector2(level.Exit.x, level.Exit.y);
         levelManager.AddObj(Instantiate(prefabs.GetPrefab("Exit"), pos, Quaternion.identity, transform));
         levelManager.SetTeleports();
-        SetCameraBoundaries();
+        //SetCameraBoundaries();
     }
 
     public void SetCameraBoundaries()
@@ -95,6 +95,116 @@ public class LevelFromJson : MonoBehaviour
         cameraBoundaries[3] = level.SimpleBlock[0].y;
 
         foreach (Block block in level.SimpleBlock)
+        {
+            if (block.x < cameraBoundaries[0])
+            {
+                cameraBoundaries[0] = block.x;
+            }
+
+            if (block.x > cameraBoundaries[1])
+            {
+                cameraBoundaries[1] = block.x;
+            }
+
+            if (block.y < cameraBoundaries[2])
+            {
+                cameraBoundaries[2] = block.y;
+            }
+
+            if (block.y > cameraBoundaries[3])
+            {
+                cameraBoundaries[3] = block.y;
+            }
+        }
+        foreach (ColorBlock block in level.Blue)
+        {
+            if (block.position.x < cameraBoundaries[0])
+            {
+                cameraBoundaries[0] = block.position.x;
+            }
+
+            if (block.position.x > cameraBoundaries[1])
+            {
+                cameraBoundaries[1] = block.position.x;
+            }
+
+            if (block.position.y < cameraBoundaries[2])
+            {
+                cameraBoundaries[2] = block.position.y;
+            }
+
+            if (block.position.y > cameraBoundaries[3])
+            {
+                cameraBoundaries[3] = block.position.y;
+            }
+        }
+        foreach (ColorBlock block in level.Green)
+        {
+            if (block.position.x < cameraBoundaries[0])
+            {
+                cameraBoundaries[0] = block.position.x;
+            }
+
+            if (block.position.x > cameraBoundaries[1])
+            {
+                cameraBoundaries[1] = block.position.x;
+            }
+
+            if (block.position.y < cameraBoundaries[2])
+            {
+                cameraBoundaries[2] = block.position.y;
+            }
+
+            if (block.position.y > cameraBoundaries[3])
+            {
+                cameraBoundaries[3] = block.position.y;
+            }
+        }
+        foreach (ColorBlock block in level.Purple)
+        {
+            if (block.position.x < cameraBoundaries[0])
+            {
+                cameraBoundaries[0] = block.position.x;
+            }
+
+            if (block.position.x > cameraBoundaries[1])
+            {
+                cameraBoundaries[1] = block.position.x;
+            }
+
+            if (block.position.y < cameraBoundaries[2])
+            {
+                cameraBoundaries[2] = block.position.y;
+            }
+
+            if (block.position.y > cameraBoundaries[3])
+            {
+                cameraBoundaries[3] = block.position.y;
+            }
+        }
+        foreach (ColorBlock block in level.Red)
+        {
+            if (block.position.x < cameraBoundaries[0])
+            {
+                cameraBoundaries[0] = block.position.x;
+            }
+
+            if (block.position.x > cameraBoundaries[1])
+            {
+                cameraBoundaries[1] = block.position.x;
+            }
+
+            if (block.position.y < cameraBoundaries[2])
+            {
+                cameraBoundaries[2] = block.position.y;
+            }
+
+            if (block.position.y > cameraBoundaries[3])
+            {
+                cameraBoundaries[3] = block.position.y;
+            }
+        }
+        foreach (Block block in level.Danger)
         {
             if (block.x < cameraBoundaries[0])
             {
@@ -135,6 +245,7 @@ public class LevelFromJson : MonoBehaviour
         CurrentLevel();
     }
 
+   
     private void LoadLevel()
     {
         if (StaticData.currentLevel < allLevels.Length)
@@ -143,7 +254,8 @@ public class LevelFromJson : MonoBehaviour
             level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
             GenerateLevel();
             cameraScript.GetComponent<CameraScript>().FindCharacter();
-            SetCameraBoundaries();
+            cameraScript.GetComponent<CameraScript>().ChangeBackground();
+            //SetCameraBoundaries();
             Time.timeScale = 1f;
         }
         else

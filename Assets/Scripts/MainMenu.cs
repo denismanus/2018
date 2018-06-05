@@ -16,17 +16,42 @@ public class MainMenu : MonoBehaviour
     public GameObject backGround;
     public GameObject gaminator;
     public GameObject menu;
+    public GameObject textImage;
     private Sprite[] levelImages;
+    private Toggle[] settings;
     Object[] levels;
-
+    public GameObject buttonBackgrouned;
 
     void Start()
     {
+        SetSettings();
         effects = FindObjectOfType<Effects>();
-        StartCoroutine(ShowPreview());
-        LoadSpritesLevels();
+        //StartCoroutine(ShowPreview());
+        LoadTextLevels();
     }
 
+    private void SetSettings()
+    {
+        settings = this.GetComponentsInChildren<Toggle>(true);
+        foreach (Toggle toggle in settings)
+        {
+            if (toggle.name == "sound"&&toggle.isOn != StaticData.isSoundEnabled)
+            {
+                toggle.isOn = StaticData.isSoundEnabled;
+                OffSound();
+            }
+            else if (toggle.name == "music"&&toggle.isOn != StaticData.isMusicEnabled)
+            {
+                toggle.isOn = StaticData.isMusicEnabled;
+                OffMusic();
+            }
+
+        }
+    }
+    private void AddListenerToButtons()
+    {
+
+    }
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -37,7 +62,7 @@ public class MainMenu : MonoBehaviour
         if (!StaticData.isLogoShown)
         {
             effects.FadeCurtain(true, 1, null);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             effects.FadeCurtain(false, 1, null);
             yield return new WaitForSeconds(1);
             gaminator.SetActive(false);
@@ -65,8 +90,7 @@ public class MainMenu : MonoBehaviour
 
 
 
-
-    public void LoadSpritesLevels()
+    public void LoadTextLevels()
     {
         levelImages = Resources.LoadAll<Sprite>("Levels/Sprites");
         levels = Resources.LoadAll("Levels/Json");
@@ -74,30 +98,51 @@ public class MainMenu : MonoBehaviour
         {
             for (int i = 0; i < levels.Length; i++)
             {
-                if (i <= PlayerPrefs.GetInt("CompletedLevel"))
+                GameObject go = Instantiate(button);
+                GameObject text = Instantiate(textImage);
+                //pict.transform.SetParent(parent.GetComponent<Transform>());
+                //pict.transform.SetAsLastSibling();
+                go.transform.SetParent(parent.GetComponent<Transform>());
+                go.transform.SetAsLastSibling();
+                Button nbutton = go.GetComponent<Button>();
+                nbutton.onClick.AddListener(() => SelectLevel());
+                go.name = levels[i].name;
+                Text buttonImage = text.GetComponent<Text>();
+                buttonImage.text = i.ToString();
+                buttonImage.transform.SetParent(go.GetComponent<Transform>());
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("CompletedLevel", 1);
+            LoadTextLevels();
+        }
+    }
+    public void LoadSpritesLevels()
+    {
+        //Чтоб этот метод заработал надо в префаб кнопки добавить компонент изображение
+        levelImages = Resources.LoadAll<Sprite>("Levels/Sprites");
+        levels = Resources.LoadAll("Levels/Json");
+        if (PlayerPrefs.HasKey("CompletedLevel"))
+        {
+            for (int i = 0; i < levels.Length; i++)
+            {
+                //if (i <= PlayerPrefs.GetInt("CompletedLevel"))
+                //{
+                GameObject go = Instantiate(button);
+                go.transform.SetParent(parent.GetComponent<Transform>());
+                go.transform.SetAsLastSibling();
+                Button nbutton = go.GetComponent<Button>();
+                nbutton.onClick.AddListener(() => SelectLevel());
+                go.name = levels[i].name;
+                Image buttonImage = go.GetComponent<Image>();
+                if (i < levelImages.Length)
                 {
-                    GameObject go = Instantiate(button);
-                    go.transform.SetParent(parent.GetComponent<Transform>());
-                    go.transform.SetAsLastSibling();
-                    Button nbutton = go.GetComponent<Button>();
-                    nbutton.onClick.AddListener(() => SelectLevel());
-                    go.name = levels[i].name;
-                    Image buttonImage = go.GetComponent<Image>();
-                    if (i < levelImages.Length)
-                    {
-                        buttonImage.sprite = levelImages[i];
-                    }
-                    else
-                    {
-                        buttonImage.sprite = levelImages[0];
-                    }
+                    buttonImage.sprite = levelImages[i];
                 }
                 else
                 {
-                    GameObject go = Instantiate(blockedButton);
-                    go.GetComponentInChildren<Text>().text = levels[i].name;
-                    go.transform.SetParent(parent.GetComponent<Transform>());
-                    go.transform.SetAsLastSibling();
+                    buttonImage.sprite = levelImages[0];
                 }
             }
         }
@@ -110,8 +155,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevels()
     {
-
-        Debug.Log(PlayerPrefs.GetInt("CompletedLevel"));
+        
         levels = Resources.LoadAll("Levels/Json");
         for (int i = 0; i < levels.Length; i++)
         {
@@ -154,6 +198,10 @@ public class MainMenu : MonoBehaviour
 
     public void OffSound()
     {
-        StaticData.isSounded = !StaticData.isSounded;
+        StaticData.isSoundEnabled = !StaticData.isSoundEnabled;
+    }
+    public void OffMusic()
+    {
+        StaticData.isMusicEnabled = !StaticData.isMusicEnabled; 
     }
 }

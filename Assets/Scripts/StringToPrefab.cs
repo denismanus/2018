@@ -10,7 +10,6 @@ public class StringToPrefab : MonoBehaviour
     {
 
     }
-
     public GameObject GetPrefab(string name)
     {
         foreach(PrefabName pref in allPrefs)

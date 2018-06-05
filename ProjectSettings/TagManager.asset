@@ -10,6 +10,7 @@ TagManager:
   - Side
   - NextLevelMenu
   - Saw
+  - GravityDetect
   layers:
   - Default
   - TransparentFX

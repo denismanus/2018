@@ -20,8 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224943753732326316}
   - component: {fileID: 222121009635242416}
-  - component: {fileID: 114192591117228788}
   - component: {fileID: 114143806821116452}
+  - component: {fileID: 114901460756539338}
+  - component: {fileID: 114696464880570430}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -64,13 +65,13 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 114192591117228788}
+  m_TargetGraphic: {fileID: 114696464880570430}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114192591117228788
+--- !u!114 &114696464880570430
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -89,7 +90,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300004, guid: e9bdfb2dc2bec3c4498c2052b031c409, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 28e754de99227734696320738c2e1b9a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -97,6 +98,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114901460756539338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1546703923687434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f674523ceec9ed540a514f61784f3311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222121009635242416
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -118,6 +130,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 596.00543, y: 319.0065}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

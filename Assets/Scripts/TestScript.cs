@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,11 +16,15 @@ public class TestScript : MonoBehaviour, IResetable
     public Transform groundCheck;
     public float groundRadius = 0.2f;
     public LayerMask whatIsGround;
+    public bool isConrtolBlocked;
     private Rigidbody2D body;
     private new Transform transform;
     private Vector2 startPosition;
     private GameObject levelManager;
     private Animator animator;
+
+    public delegate void MethodContainer(string message);
+    public static event MethodContainer OnAction;
 
     private void Start()
     {
@@ -34,7 +39,7 @@ public class TestScript : MonoBehaviour, IResetable
     public void SetGravity(int gravityDirection)
     {
         transform.Rotate(0, 0, 90 * gravityDirection - 90 * gravity);
-        transform.Find("SideDetection").transform.Rotate(0, 0, 90 * -gravityDirection + 90 * gravity);
+        transform.Find("GravityDetection").transform.Rotate(0, 0, 90 * -gravityDirection + 90 * gravity);
         gravity = gravityDirection;
     }
 
@@ -64,13 +69,19 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void Push(Vector2 direction)
     {
+        OnAction("Jump");
         body.AddForce(direction, ForceMode2D.Impulse);
     }
-
+    public int GetGravity()
+    {
+        return gravity;
+    }
     public void Jump()
     {
         if (!isStuned)
         {
+
+            OnAction("Jump");
             switch (gravity)
             {
                 case 0:
@@ -115,12 +126,11 @@ public class TestScript : MonoBehaviour, IResetable
             }
         }
     }
-
-    private void FixedUpdate()
+    void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
         animator.SetBool("isGrounded", isGrounded);
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical") )&& isGrounded)
         {
             Jump();
         }
@@ -136,13 +146,16 @@ public class TestScript : MonoBehaviour, IResetable
         Move(move);
     }
 
+
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Danger")
         {
             KillCharacter();
-        } else if(coll.gameObject.tag == "Saw")
+        }
+        else if (coll.gameObject.tag == "Saw")
         {
+            OnAction("Death");
             SetStun(true);
             animator.SetBool("isDying", true);
         }
@@ -150,10 +163,13 @@ public class TestScript : MonoBehaviour, IResetable
 
     public void KillCharacter()
     {
+       
         levelManager.GetComponent<LevelManager>().ResetLevel();
     }
     public void Teleport(bool isTelporting)
     {
+        if(isTelporting)
+            OnAction("Teleport");
         animator.SetBool("isTeleporting", isTelporting);
     }
 
@@ -171,7 +187,7 @@ public class TestScript : MonoBehaviour, IResetable
         SetTypeOfCube("Empty");
         Physics2D.gravity = new Vector3(0, -9.82f, 0);
         SetGravity(0);
-        body.velocity = new Vector2(0, 0);  
+        body.velocity = new Vector2(0, 0);
         gameObject.GetComponent<SpriteRenderer>().sprite = levelManager.GetComponent<LevelManager>().GetSprite(typeOfCube + "Char");
         transform.position = startPosition;
     }
