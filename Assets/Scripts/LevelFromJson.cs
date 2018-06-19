@@ -9,16 +9,33 @@ public class LevelFromJson : MonoBehaviour
 
     private Level level;
     private Effects effects;
+    private string[] levelsFromFolder;
     private Object[] allLevels;
     public StringToPrefab prefabs;
     private LevelManager levelManager;
     private GameObject cameraScript;
     private float[] cameraBoundaries = new float[4];
 
+    void loadLevelsFromOuter()
+    {
+        string path = Directory.GetCurrentDirectory()+"/json";
+        DirectoryInfo dir = new DirectoryInfo(path);
+        FileInfo[] filesinf = dir.GetFiles("*.json");
+        levelsFromFolder = new string[filesinf.Length];
+        int count = 0;
+        foreach (FileInfo file in filesinf)
+        {
+            string contents = File.ReadAllText(file.FullName);
+            levelsFromFolder[count] = contents;
+            count++;
+        }
+    }
     void Start()
     {
+
         effects = FindObjectOfType<Effects>();
-        allLevels = Resources.LoadAll("Levels/Json");
+        loadLevelsFromOuter();
+        //allLevels = Resources.LoadAll("Levels/Json");
         cameraScript = FindObjectOfType<CameraScript>().gameObject;
         levelManager = FindObjectOfType<LevelManager>();
         CurrentLevel();
@@ -248,10 +265,20 @@ public class LevelFromJson : MonoBehaviour
    
     private void LoadLevel()
     {
-        if (StaticData.currentLevel < allLevels.Length)
+        //if (StaticData.currentLevel < allLevels.Length)
+        //{
+        //    levelManager.DestroyObjects();
+        //    level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
+        //    GenerateLevel();
+        //    cameraScript.GetComponent<CameraScript>().FindCharacter();
+        //    cameraScript.GetComponent<CameraScript>().ChangeBackground();
+        //    //SetCameraBoundaries();
+        //    Time.timeScale = 1f;
+        //}
+        if (StaticData.currentLevel < levelsFromFolder.Length)
         {
             levelManager.DestroyObjects();
-            level = JsonUtility.FromJson<Level>(allLevels[StaticData.currentLevel].ToString());
+            level = JsonUtility.FromJson<Level>(levelsFromFolder[StaticData.currentLevel].ToString());
             GenerateLevel();
             cameraScript.GetComponent<CameraScript>().FindCharacter();
             cameraScript.GetComponent<CameraScript>().ChangeBackground();

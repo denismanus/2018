@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -18,12 +19,27 @@ public class MainMenu : MonoBehaviour
     public GameObject menu;
     public GameObject textImage;
     private Sprite[] levelImages;
+    private FileInfo[] levelsFromFolder;
     private Toggle[] settings;
     Object[] levels;
     public GameObject buttonBackgrouned;
 
+
+    void loadLevelsFromOuter()
+    {
+        string path = Directory.GetCurrentDirectory() + "/json";
+        DirectoryInfo dir = new DirectoryInfo(path);
+        levelsFromFolder = dir.GetFiles("*.json");
+        //foreach (FileInfo file in filesinf)
+        //{
+        //    string contents = File.ReadAllText(file.FullName);
+        //    levelsFromFolder[count] = contents;
+        //    count++;
+        //}
+    }
     void Start()
     {
+        loadLevelsFromOuter();
         SetSettings();
         effects = FindObjectOfType<Effects>();
         //StartCoroutine(ShowPreview());
@@ -92,11 +108,27 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTextLevels()
     {
+
         levelImages = Resources.LoadAll<Sprite>("Levels/Sprites");
         levels = Resources.LoadAll("Levels/Json");
         if (PlayerPrefs.HasKey("CompletedLevel"))
         {
-            for (int i = 0; i < levels.Length; i++)
+            //for (int i = 0; i < levels.Length; i++)
+            //{
+            //    GameObject go = Instantiate(button);
+            //    GameObject text = Instantiate(textImage);
+            //    //pict.transform.SetParent(parent.GetComponent<Transform>());
+            //    //pict.transform.SetAsLastSibling();
+            //    go.transform.SetParent(parent.GetComponent<Transform>());
+            //    go.transform.SetAsLastSibling();
+            //    Button nbutton = go.GetComponent<Button>();
+            //    nbutton.onClick.AddListener(() => SelectLevel());
+            //    go.name = levels[i].name;
+            //    Text buttonImage = text.GetComponent<Text>();
+            //    buttonImage.text = i.ToString();
+            //    buttonImage.transform.SetParent(go.GetComponent<Transform>());
+            //}
+            for (int i = 0; i < levelsFromFolder.Length; i++)
             {
                 GameObject go = Instantiate(button);
                 GameObject text = Instantiate(textImage);
@@ -106,7 +138,7 @@ public class MainMenu : MonoBehaviour
                 go.transform.SetAsLastSibling();
                 Button nbutton = go.GetComponent<Button>();
                 nbutton.onClick.AddListener(() => SelectLevel());
-                go.name = levels[i].name;
+                go.name = levelsFromFolder[i].Name;
                 Text buttonImage = text.GetComponent<Text>();
                 buttonImage.text = i.ToString();
                 buttonImage.transform.SetParent(go.GetComponent<Transform>());
@@ -184,9 +216,9 @@ public class MainMenu : MonoBehaviour
 
     public void SelectLevel()
     {
-        for (int i = 0; i < levels.Length; i++)
+        for (int i = 0; i < levelsFromFolder.Length; i++)
         {
-            if (levels[i].name.Equals(EventSystem.current.currentSelectedGameObject.name))
+            if (levelsFromFolder[i].Name.Equals(EventSystem.current.currentSelectedGameObject.name))
             {
                 StaticData.MethodToDelegate start = PlayGame;
                 StaticData.currentLevel = i;
