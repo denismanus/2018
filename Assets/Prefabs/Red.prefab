@@ -97,7 +97,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.6}
+  m_Size: {x: 1, y: 0.9}
   m_EdgeRadius: 0
 --- !u!61 &61154442339010498
 BoxCollider2D:
@@ -147,7 +147,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 1}
+  m_Size: {x: 0.9, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &95925406661783520
 Animator:
@@ -177,11 +177,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6008ed565abd4c145a25a7b7ba2a9dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInCollision: 0
   teleportCoord:
     x: 0
     y: 0
   typeOfTheBox: Red
   teleport: {fileID: 0}
+  isCharacterInside: 0
+  afterTeleporting: 0
+  colliderCount: 0
 --- !u!212 &212084784972372110
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -215,7 +219,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300002, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

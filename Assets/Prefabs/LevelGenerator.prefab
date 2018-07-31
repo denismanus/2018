@@ -72,7 +72,7 @@ MonoBehaviour:
     gameObject: {fileID: 1572094329544792, guid: d5f3558ffc74604468807fa33590d078,
       type: 2}
   - type: Red
-    gameObject: {fileID: 1294301112908252, guid: 013f0eac90db91a4bafc38ada3d50e27,
+    gameObject: {fileID: 1037085141871136, guid: 2ba709a04e81d5846a4e4477b430f03d,
       type: 2}
   - type: Purple
     gameObject: {fileID: 1213535083143726, guid: 6953c316b422aa04e94afc601b1d513e,
@@ -91,4 +91,43 @@ MonoBehaviour:
       type: 2}
   - type: Saw
     gameObject: {fileID: 1805921395728996, guid: 340e009429bac49478c97181d75f5b46,
+      type: 2}
+  - type: BlueDec1
+    gameObject: {fileID: 1463945199423424, guid: 4d927606797c66344bcf3f66362e2915,
+      type: 2}
+  - type: BlueDec2
+    gameObject: {fileID: 1433695549393880, guid: fef43c2cb8e281a4ba91ec7b4bbe799f,
+      type: 2}
+  - type: BlueDec3
+    gameObject: {fileID: 1868040510628950, guid: 656577d99cdecda4b89430d25657990a,
+      type: 2}
+  - type: GreenDec1
+    gameObject: {fileID: 1299610243290930, guid: 249a0721a75914b4bb3b7b53f68e3125,
+      type: 2}
+  - type: GreenDec2
+    gameObject: {fileID: 1116645694074136, guid: 3a5ee9a15ffbf994aa52fa2f6b45e97c,
+      type: 2}
+  - type: GreenDec3
+    gameObject: {fileID: 1471829672712870, guid: e6fb180363f936d4fa990da0dec22c76,
+      type: 2}
+  - type: PurpleDec1
+    gameObject: {fileID: 1705292943747844, guid: 98298d105ee9f7549ba348c6810abb25,
+      type: 2}
+  - type: PurpleDec2
+    gameObject: {fileID: 1667281102159018, guid: 39117a429130bb741979ce0f24b32c95,
+      type: 2}
+  - type: PurpleDec3
+    gameObject: {fileID: 1403706807979820, guid: 16eca936633afd74ea3713227a80c782,
+      type: 2}
+  - type: RedDec1
+    gameObject: {fileID: 1276369361982484, guid: c556bea9b6b56e94e99778a5c5743deb,
+      type: 2}
+  - type: RedDec2
+    gameObject: {fileID: 1693525690838396, guid: e6d7691664fcea041a55ada9e7e4afa8,
+      type: 2}
+  - type: RedDec3
+    gameObject: {fileID: 1537033128906644, guid: 88f46bd23e9e00d4aabe19741471b810,
+      type: 2}
+  - type: Empty
+    gameObject: {fileID: 1645983743408470, guid: 738fba02068766947a819f7e60166556,
       type: 2}

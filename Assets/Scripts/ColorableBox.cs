@@ -9,7 +9,7 @@ public class ColorableBox : MonoBehaviour
         top, right, bottom, left
     }
     private static bool isInAction = false;
-    private bool isInCollision = false;
+    public bool isInCollision = false;
     private Animator animator;
     private Vector2 positionToTeleport;
     private bool isCollisionActiv = true;
@@ -22,9 +22,14 @@ public class ColorableBox : MonoBehaviour
     private LevelManager levelManager;
     private GameObject character;
     public bool isCharacterInside = false;
+    public bool afterTeleporting = false;
+
+    public delegate void ColorStateHandler();
+    public event ColorStateHandler changed;
+    public int colliderCount;
     void Start()
     {
-
+        colliderCount = 0;
         animator = GetComponent<Animator>();
         basicColor = typeOfTheBox;
         levelManager = FindObjectOfType<LevelManager>();
@@ -46,21 +51,23 @@ public class ColorableBox : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (!isInCollision)
-        {
+        {     
+            
             isInCollision = true;
+
             if (coll.gameObject.tag == "Player")
             {
-                if (isCollisionActiv)
+                if (!coll.gameObject.GetComponent<TestScript>().afterTeleporting)
                 {
                     ColorCheck(coll.gameObject);
                 }
-                else
-                {
-                    isCollisionActiv = true;
-                }
+                //else
+                //{
+                //    isCollisionActiv = true;
+                //}
             }
         }
-        
+
     }
 
     void OnCollisionExit2D(Collision2D coll)
@@ -69,14 +76,24 @@ public class ColorableBox : MonoBehaviour
         if (coll.gameObject.tag == "Player")
         {
             animator.SetBool("isFailTeleporting", false);
-            animator.SetBool("isTeleporting", false);
-            isCharacterInside = false;
+            //animator.SetBool("isTeleporting", false);
+            //isCharacterInside = false;
+
         }
     }
+
     void OnTriggerExit2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Player")
         {
+            isInCollision = false;
+            isCollisionActiv = false;
+            if (colliderCount != 0)
+            {
+                colliderCount--;
+
+                coll.gameObject.GetComponent<TestScript>().isInsideOfSMT -= 1;
+            }
             isCharacterInside = false;
         }
     }
@@ -85,48 +102,55 @@ public class ColorableBox : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player")
         {
+            isInCollision = true;
+            colliderCount++;
+            coll.gameObject.GetComponent<TestScript>().isInsideOfSMT += 1;
             isCharacterInside = true;
-            if (isCollisionActiv)
+            if (!coll.gameObject.GetComponent<TestScript>().afterTeleporting)
             {
                 ColorCheck(coll.gameObject);
             }
-            else
-            {
-                isCollisionActiv = true;
-            }
+            //else
+            //{
+            //    isCollisionActiv = true;
+            //}
         }
         else if (coll.gameObject.tag == "Side")
         {
             GetSideCollision(coll);
-        } 
-        else if(coll.gameObject.tag == "GravityDetect")
+        }
+        else if (coll.gameObject.tag == "GravityDetect")
         {
             GetGravityCollision(coll);
         }
     }
-    void ColorCheck(GameObject gameObject)
-    {
 
+    public void ColorCheck(GameObject gameObject)
+    {
         string charType = gameObject.GetComponent<TestScript>().GetTypeOfCube();
         if (charType != typeOfTheBox)
         {
-            if(typeOfTheBox=="Blue")
+            if (typeOfTheBox == "Blue")
             {
                 levelManager.ChangeBlueTrigger(true);
                 SetTriggers(false);
             }
             else
             {
+                if (charType == "Blue")
+                {
+                    if (gameObject.GetComponent<TestScript>().isInsideOfSMT != 0)
+                    {
+                        return;
+                    }
+
+                }
                 levelManager.ChangeBlueTrigger(false);
             }
             ExchangeColor(gameObject, charType);
         }
         else if (charType == "Blue")
         {
-           
-            //SetTriggers(true);
-            //this.gameObject.layer = 0;
-            //transform.parent.gameObject.layer = 0;
         }
         else if (charType == "Red")
         {
@@ -157,6 +181,7 @@ public class ColorableBox : MonoBehaviour
         gameObject.GetComponent<TestScript>().SetTypeOfCube(typeOfTheBox);
         typeOfTheBox = charType;
         SetTypeOfCube(typeOfTheBox);
+        levelManager.CheckBlocksInCollision(gameObject, this);
 
     }
     GameObject FindTeleport(GameObject teleport)
@@ -194,7 +219,7 @@ public class ColorableBox : MonoBehaviour
                     break;
                 case Sides.right:
                     positionToTeleport = teleportTo.GetComponent<Transform>().position;
-                    
+
                     positionToTeleport.x -= teleportTo.GetComponent<Transform>().localScale.x;
                     positionToCheck = positionToTeleport;
 
@@ -215,14 +240,13 @@ public class ColorableBox : MonoBehaviour
             }
             if (CheckIfTeleportInWall(positionToCheck))
             {
-               
                 character = gameObject;
                 character.GetComponent<TestScript>().isConrtolBlocked = true;
                 gameObject.GetComponent<TestScript>().SetStun(true);
                 animator.SetBool("isTeleporting", true);
                 character.GetComponent<TestScript>().Teleport(true);
                 teleportTo.GetComponentInChildren<ColorableBox>().GetPlayerAfterTeleporting();
-                StartCoroutine(Teleporting());
+                StartCoroutine(Teleporting(gameObject));
             }
             else
             {
@@ -240,11 +264,16 @@ public class ColorableBox : MonoBehaviour
 
         if (!isCharacterInside)
         {
+
             transform.parent.GetComponent<BoxCollider2D>().isTrigger = value;
             foreach (BoxCollider2D box in GetComponents<BoxCollider2D>())
             {
                 box.isTrigger = value;
             }
+            //foreach (EdgeCollider2D box in GetComponents<EdgeCollider2D>())
+            //{
+            //    box.isTrigger = value;
+            //}
             if (value)
             {
                 gameObject.layer = 0;
@@ -261,10 +290,10 @@ public class ColorableBox : MonoBehaviour
             StartCoroutine(Wait(value));
         }
     }
-    IEnumerator Teleporting()
+    IEnumerator Teleporting(GameObject gameObject)
     {
         yield return new WaitForSeconds(0.7f);
-        EndTeleporting();
+        EndTeleporting(gameObject);
     }
     IEnumerator Wait(bool value)
     {
@@ -279,17 +308,23 @@ public class ColorableBox : MonoBehaviour
         isInAction = false;
     }
 
-
-    public void EndTeleporting()
+    IEnumerator FinalizeTeleporting(GameObject gameObject)
     {
-       
+        yield return new WaitForSeconds(0.3f);
+        gameObject.GetComponent<TestScript>().afterTeleporting = false;
+
+    }
+    public void EndTeleporting(GameObject gameObject)
+    {
+        gameObject.GetComponent<TestScript>().afterTeleporting = true;
+        StartCoroutine(FinalizeTeleporting(gameObject));
         character.GetComponent<TestScript>().Teleport(false);
         animator.SetBool("isTeleporting", false);
         character.GetComponent<Transform>().position = positionToTeleport;
         character.GetComponent<TestScript>().SetStun(false);
         character.GetComponent<TestScript>().isConrtolBlocked = false;
     }
-    
+
     public void EndFailTeleporting()
     {
         animator.SetBool("isFailTeleporting", false);
@@ -304,30 +339,34 @@ public class ColorableBox : MonoBehaviour
         {
             case Sides.top:
                 Physics2D.gravity = new Vector3(0, -9.82f, 0);
-                gameObject.GetComponent<TestScript>().SetGravity(0);
+                gameObject.GetComponent<TestScript>().SetGravity(0, false);
                 break;
             case Sides.right:
                 Physics2D.gravity = new Vector3(-9.82f, 0, 0);
-                gameObject.GetComponent<TestScript>().SetGravity(3);
+                gameObject.GetComponent<TestScript>().SetGravity(3, false);
                 break;
             case Sides.bottom:
                 Physics2D.gravity = new Vector3(0, 9.82F, 0);
-                gameObject.GetComponent<TestScript>().SetGravity(2);
+                gameObject.GetComponent<TestScript>().SetGravity(2, false);
                 break;
             case Sides.left:
                 Physics2D.gravity = new Vector3(9.82F, 0, 0);
-                gameObject.GetComponent<TestScript>().SetGravity(1);
+                gameObject.GetComponent<TestScript>().SetGravity(1, false);
                 break;
         }
     }
 
     void Push(GameObject gameObject)
     {
+        if (!gameObject.GetComponent<TestScript>().isGrounded)
+            return;
+        if (!gameObject.GetComponent<TestScript>().isFalling)
+            return;
         Vector2 player = gameObject.GetComponent<Transform>().position;
         Vector2 block = this.GetComponent<Transform>().position;
         Vector2 push = new Vector2();
         int gravity = gameObject.GetComponent<TestScript>().GetGravity();
-      
+
         switch (gravity)
         {
             case 0:
@@ -344,16 +383,15 @@ public class ColorableBox : MonoBehaviour
                 break;
         }
 
-        if(!isInAction)
+        if (!isInAction)
         {
-            Debug.Log(actualSide);
             if (actualSide == Sides.bottom)
             {
                 StartCoroutine(StartAction());
                 gameObject.GetComponent<TestScript>().Push(push);
             }
         }
-        
+
     }
 
     private void GetSideCollision(Collider2D gameObject)
@@ -393,6 +431,4 @@ public class ColorableBox : MonoBehaviour
                 break;
         }
     }
-
-    
 }

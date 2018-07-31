@@ -8,6 +8,7 @@ public class LevelFromJson : MonoBehaviour
 {
 
     private Level level;
+    private LevelDec decoration;
     private Effects effects;
     private string[] levelsFromFolder;
     private Object[] allLevels;
@@ -243,7 +244,85 @@ public class LevelFromJson : MonoBehaviour
                 cameraBoundaries[3] = block.y;
             }
         }
+        
         cameraScript.GetComponent<CameraScript>().SetBoundaries(cameraBoundaries[0], cameraBoundaries[1], cameraBoundaries[2], cameraBoundaries[3]);
+    }
+
+    private void GenerateDecor()
+    {
+        Vector2 pos;
+        foreach (Block b in decoration.RedDec1)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("red_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("RedDec1"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.RedDec2)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("red_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("RedDec2"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.RedDec3)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("red_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("RedDec3"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.BlueDec1)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("blue_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("BlueDec1"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.BlueDec2)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("blue_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("BlueDec2"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.BlueDec3)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("blue_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("BlueDec3"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.PurpleDec1)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("purple_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("PurpleDec1"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.PurpleDec2)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("purple_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("PurpleDec2"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.PurpleDec3)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("purple_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("PurpleDec3"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.GreenDec1)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("green_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("GreenDec1"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.GreenDec2)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("green_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("GreenDec2"), pos, Quaternion.identity, transform));
+        }
+        foreach (Block b in decoration.GreenDec3)
+        {
+            cameraScript.GetComponent<CameraScript>().ChangeBackground("green_back");
+            pos = new Vector2(b.x, b.y);
+            levelManager.AddObj(Instantiate(prefabs.GetPrefab("GreenDec3"), pos, Quaternion.identity, transform));
+        }
     }
 
 
@@ -279,9 +358,11 @@ public class LevelFromJson : MonoBehaviour
         {
             levelManager.DestroyObjects();
             level = JsonUtility.FromJson<Level>(levelsFromFolder[StaticData.currentLevel].ToString());
+            decoration = JsonUtility.FromJson<LevelDec>(levelsFromFolder[StaticData.currentLevel].ToString());
             GenerateLevel();
+            GenerateDecor();
             cameraScript.GetComponent<CameraScript>().FindCharacter();
-            cameraScript.GetComponent<CameraScript>().ChangeBackground();
+           
             //SetCameraBoundaries();
             Time.timeScale = 1f;
         }
@@ -309,6 +390,9 @@ public class LevelFromJson : MonoBehaviour
     }
 }
 
+
+
+
 [System.Serializable]
 public class Level
 {
@@ -323,6 +407,24 @@ public class Level
     public Block Start;
     public Block Exit;
 }
+
+
+public class LevelDec
+{
+    public Block[] RedDec1;
+    public Block[] RedDec2;
+    public Block[] RedDec3;
+    public Block[] BlueDec1;
+    public Block[] BlueDec2;
+    public Block[] BlueDec3;
+    public Block[] PurpleDec1;
+    public Block[] PurpleDec2;
+    public Block[] PurpleDec3;
+    public Block[] GreenDec1;
+    public Block[] GreenDec2;
+    public Block[] GreenDec3;
+}
+
 
 [System.Serializable]
 public struct Block

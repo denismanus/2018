@@ -2,16 +2,17 @@
 
 public class CameraScript : MonoBehaviour
 {
-
+    private static int counter = 0;
     public float interpVelocity;
     public float minDistance;
     public float followDistance;
     private GameObject target;
+    private string currentBackGround = "";
     public Vector3 offset;
     Vector3 targetPos;
     public int z = 2;
 
-    public Sprite[] sprites = new Sprite[3];
+    public Sprite[] sprites = new Sprite[4];
 
     //private float minX = 0, maxX = 25, minY = 0, maxY = 10;
 
@@ -22,9 +23,27 @@ public class CameraScript : MonoBehaviour
         //FindCharacter();
     }
 
-    public void ChangeBackground()
+    public void ChangeBackground(string background)
     {
-        GetComponentInChildren<SpriteRenderer>().sprite = sprites[Random.Range(0, 2)];
+        if (background != currentBackGround)
+        {
+            currentBackGround = background;
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                if (sprites[i].name == background)
+                    GetComponentInChildren<SpriteRenderer>().sprite = sprites[i];
+            }
+        }
+        //Debug.Log(sprites[counter].name);
+        //if (counter == 3)
+        //{
+        //    counter = 0;
+        //}
+        //else
+        //{
+        //    counter++;
+        //}
+        //GetComponentInChildren<SpriteRenderer>().sprite = sprites[counter];
     }
     public void SetBoundaries(float minX, float maxX, float minY, float maxY)
     {

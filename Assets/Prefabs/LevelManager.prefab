@@ -78,4 +78,28 @@ MonoBehaviour:
     sprite: {fileID: 21300012, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   - color: PurpleChar
     sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
+  - color: PurpleChar
+    sprite: {fileID: 21300126, guid: 4dedae484fc2a7e4b84c288f11334ee5, type: 3}
   backGround: {fileID: 0}

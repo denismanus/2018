@@ -46,6 +46,11 @@ public class MainMenu : MonoBehaviour
         LoadTextLevels();
     }
 
+    public void ActivateLevelSelect()
+    {
+        gameObject.transform.Find("LevelSelect").gameObject.SetActive(true);
+        gameObject.transform.Find("LevelSelect/ViewPort/Grid/01.json").GetComponent<Button>().Select();
+    }
     private void SetSettings()
     {
         settings = this.GetComponentsInChildren<Toggle>(true);

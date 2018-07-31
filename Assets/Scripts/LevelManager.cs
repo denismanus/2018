@@ -51,15 +51,25 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject wall in walls)
         {
-            if (wall.GetComponent<Transform>().position.x == vect.x && wall.GetComponent<Transform>().position.y == vect.y)
+            if (wall.GetComponent<Transform>().position.x == Math.Floor(vect.x) && wall.GetComponent<Transform>().position.y == Math.Ceiling(vect.y))
             {
-
+                Debug.Log(wall.GetComponent<Transform>().position.x  + " " + Math.Floor(vect.x) +" | " +wall.GetComponent<Transform>().position.y + " " +Math.Ceiling(vect.y));
                 return false;
             }
         }
         return true;
     }
-
+    public void CheckBlocksInCollision(GameObject col, ColorableBox gm)
+    {
+        foreach(GameObject block in colorableBox)
+        {
+            if (block.GetComponentInChildren<ColorableBox>().isInCollision&&gm!=block.GetComponentInChildren<ColorableBox>())
+            {
+                if(block.GetComponentInChildren<ColorableBox>().typeOfTheBox=="Red")
+                    block.GetComponentInChildren<ColorableBox>().ColorCheck(col);
+            }
+        }
+    }
     public void ChangeBlueTrigger(bool value)
     {
         foreach (GameObject box in colorableBox)

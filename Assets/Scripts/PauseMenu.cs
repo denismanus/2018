@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     private LevelManager levelManager;
@@ -12,7 +12,6 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public GameObject UIpauseMenu;
     private GameObject menu;
-
     void Start()
     {
         levelFromJson = FindObjectOfType<LevelFromJson>();
@@ -45,6 +44,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = true;
         audioController.Pause();
+        UIpauseMenu.transform.Find("Resume").GetComponent<Button>().Select();
         UIpauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -71,6 +71,8 @@ public class PauseMenu : MonoBehaviour
         
         isLevelEnded = true;
         menu.gameObject.SetActive(true);
+        menu.transform.Find("LevelNumber").GetComponent<Text>().text = StaticData.currentLevel.ToString();
+        menu.transform.Find("NextLevel").GetComponent<Button>().Select();
         Time.timeScale = 0f;
     }
 
