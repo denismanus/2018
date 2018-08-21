@@ -127,6 +127,7 @@ public class ColorableBox : MonoBehaviour
 
     public void ColorCheck(GameObject gameObject)
     {
+        
         string charType = gameObject.GetComponent<TestScript>().GetTypeOfCube();
         if (charType != typeOfTheBox)
         {
@@ -385,6 +386,7 @@ public class ColorableBox : MonoBehaviour
 
         if (!isInAction)
         {
+            
             if (actualSide == Sides.bottom)
             {
                 StartCoroutine(StartAction());
@@ -396,7 +398,6 @@ public class ColorableBox : MonoBehaviour
 
     private void GetSideCollision(Collider2D gameObject)
     {
-
         switch (gameObject.name)
         {
             case "Left":
@@ -412,6 +413,7 @@ public class ColorableBox : MonoBehaviour
                 actualSide = Sides.top;
                 break;
         }
+        Debug.Log(actualSide);
     }
     private void GetGravityCollision(Collider2D gameObject)
     {

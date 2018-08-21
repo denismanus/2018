@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     public GameObject blockedButton;
     public GameObject parent;
     public GameObject backGround;
+    public GameObject logo;
     public GameObject gaminator;
     public GameObject menu;
     public GameObject textImage;
@@ -42,7 +43,7 @@ public class MainMenu : MonoBehaviour
         loadLevelsFromOuter();
         SetSettings();
         effects = FindObjectOfType<Effects>();
-        //StartCoroutine(ShowPreview());
+        StartCoroutine(ShowPreview());
         LoadTextLevels();
     }
 
@@ -83,13 +84,14 @@ public class MainMenu : MonoBehaviour
         if (!StaticData.isLogoShown)
         {
             effects.FadeCurtain(true, 1, null);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             effects.FadeCurtain(false, 1, null);
             yield return new WaitForSeconds(1);
             gaminator.SetActive(false);
             effects.FadeCurtain(true, 1, null);
             backGround.SetActive(true);
             menu.SetActive(true);
+            logo.SetActive(true);
             effects.FadeCurtain(true, 1, null);
             StaticData.isLogoShown = true;
         }
@@ -99,6 +101,7 @@ public class MainMenu : MonoBehaviour
             gaminator.SetActive(false);
             effects.FadeCurtain(true, 1, null);
             backGround.SetActive(true);
+            logo.SetActive(true);
             menu.SetActive(true);
             effects.FadeCurtain(true, 1, null);
         }
